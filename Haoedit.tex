@@ -341,39 +341,160 @@ There are 36 instances in the test bed $\Omega$. The setting of the fixed parame
   \label{tab:testbedmur}%
 \end{table}
 
-We present the results of the test bed in Table \ref{lognormal1} and \ref{uniform1}. To see how the approximation results deviate from the simulation results for each instance, we first compute the proportion of the expected exceeding downtime in the targeted total downtime, i.e., $D_{E}^{A}/D_0$ for the approximation model and $D_{E}^{S}/D_0$ for the simulation model, as well as the confidence intervals of the simulation results.  Then the accuracy of our approximation is assessed by the gaps between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$. For lognormally-distributed failure rates, the gaps are denoted as $G_l$; for uniformly-distributed failure rates, the gaps are denoted as $G_n$.  
+We present the results of the test bed in Table \ref{lognormal1},\ref{lognormal2}, \ref{uniform1}, and \ref{uniform2}. To see how the approximation results deviate from the simulation results for each instance, we first compute the proportion of the expected exceeding downtime in the targeted total downtime, i.e., $D_{E}^{A}/D_0$ for the approximation model and $D_{E}^{S}/D_0$ for the simulation model, as well as the confidence intervals of the simulation results. The confidence intervals of all the simulation results are relatively small, which shows the accuracy of our simulation results. Then the accuracy of our approximation is assessed by the gaps between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$. For lognormally-distributed failure rates, the gaps are denoted as $G_l$ in Table \ref{lognormal1} and \ref{lognormal2}; the average gap is 0.0004 and the maximum gap is 0.0019. For uniformly-distributed failure rates, the gaps are denoted as $G_u$ in Table \ref{uniform1} and \ref{uniform2}; the average gap is  0.0005 and the maximum gap is 0.0023. From these results, we can get the conclusion that our approximation is relatively accurate under different parameter settings.    
 
-which are denoted as $avg$ $ G_l$ and $max $ $G_l$ for lognormally-distributed failure rates, and denoted as $avg$ $G_n$ and $max$ $G_n$ for uniformly-distributed failure rates . The detailed results of $D_{E}^{A}/D_0$, $D_{E}^{S}/D_0$, confidence interval of the simulation result $D_{E}^{S}/D_0$, $avg$ $G$ and $max$ $G$ for each instance are shown in Table \ref{lognormal1} for lognormally-distributed failure rates and Table \ref{uniform1} for uniformly-distributed failure rates of \ref{detailapptable}. To take a better overview of the gaps, in Table \ref{generalapptable}, the comparison between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$ are made by computing $avg$ $G$ and $max$ $G$ for each level of every factor. For example, in the second row of Table \ref{generalapptable}, $avg$ $G$ and $max$ $G$ represent the average gap and maximum gap of the subset $\Omega_{n_{5}}=\{(n_{5},\sigma_{\beta},D_{\gamma})|\beta\in\{0.2,0.35,0.5\},\gamma\in\{01,02,03,04\}\}$ (when $n=5$).
+%which are denoted as $avg$ $ G_l$ and $max $ $G_l$ for lognormally-distributed failure rates, and denoted as $avg$ $G_n$ and $max$ $G_n$ for uniformly-distributed failure rates . The detailed results of $D_{E}^{A}/D_0$, $D_{E}^{S}/D_0$, confidence interval of the simulation result $D_{E}^{S}/D_0$, $avg$ $G$ and $max$ $G$ for each instance are shown in Table \ref{lognormal1} for lognormally-distributed failure rates and Table \ref{uniform1} for uniformly-distributed failure rates of \ref{detailapptable}. To take a better overview of the gaps, in Table \ref{generalapptable}, the comparison between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$ are made by computing $avg$ $G$ and $max$ $G$ for each level of every factor. For example, in the second row of Table \ref{generalapptable}, $avg$ $G$ and $max$ $G$ represent the average gap and maximum gap of the subset $\Omega_{n_{5}}=\{(n_{5},\sigma_{\beta},D_{\gamma})|\beta\in\{0.2,0.35,0.5\},\gamma\in\{01,02,03,04\}\}$ (when $n=5$).
 
-From the results in Table \ref{generalapptable}, the first insight we can get is that both $avg$ $G$ and $max$ $G$ are relatively small for different cases, which means our approximation is relatively accurate under various parameter settings. Furthermore, our approxi mation method has the highest accuracy for the cases where $n$ is large and $\sigma$ is small. Our approximation has done very well for all the cases where $n=50$ and $n=100$. When $n=5$, the value of the extra total downtime $D_{E}$ is relatively small, even slight difference can results in relatively large gap between $D_{E_{p}}^{A}$ and $D_{E_{p}}^{S}$. With $\sigma$ increasing, the $avg$ $G$ is also increasing. This is because the deviations in $\lambda_{i}$ increases the complexity of predicting the total downtime. In large $D_{0}$s, relative large $avg$ $G$ can be observed, this is also because the value of $D_{E}$ becomes very close to zero. Note that our computation time for all the instances are negligible. The estimation of the probability density function of the downtime distribution by simulation and approximation are show in Figure \ref{fig:lognormal} and Figure \ref{fig:uniform}.
+Furthermore, our approximation method is more accurate when $n$ is large (e.g., 50 or 100). This is due to the fact that when $n$ is large
+
+ Our approximation has done very well for all the cases where $n=50$ and $n=100$. When $n=5$, the value of the extra total downtime $D_{E}$ is relatively small, even slight difference can results in relatively large gap between $D_{E_{p}}^{A}$ and $D_{E_{p}}^{S}$. With $\sigma$ increasing, the $avg$ $G$ is also increasing. This is because the deviations in $\lambda_{i}$ increases the complexity of predicting the total downtime. In large $D_{0}$s, relative large $avg$ $G$ can be observed, this is also because the value of $D_{E}$ becomes very close to zero. Note that our computation time for all the instances are negligible. The estimation of the probability density function of the downtime distribution by simulation and approximation are show in Figure \ref{fig:lognormal} and Figure \ref{fig:uniform}.
 
 %We can also observe that both $D_{E_{p}}^{S}$ and $D_{E_{p}}^{A}$ is much lower for a system with a larger number of components than for a system with small number of components. And $D_{E_{p}}$ is increasing while $\sigma$ is increasing.
-
- %Table generated by Excel2LaTeX from sheet 'erlonguniform'
 \begin{table}[htbp]
   \centering
-  \caption{Results of the test bed }
-    \begin{tabular}{lrrrr}
+  \caption{Simulation and approximation results in the case of lognormal distributed failure rates}
+    \begin{tabular}{rrrcr}
     \toprule
-          & \multicolumn{2}{c}{Lognormal distribution} & \multicolumn{2}{c}{Uniform distribution} \\
-          & \multicolumn{2}{c}{Gap} & \multicolumn{2}{c}{Gap} \\
-          & \multicolumn{1}{c}{$avg$ $G_{l}$} & \multicolumn{1}{c}{$max$ $G_{l}$} & \multicolumn{1}{c}{$avg$ $G_{n}$} & \multicolumn{1}{c}{$max$ $G_{n}$} \\
+          & $D_{E}^{A}/D_0$ & $D_{E}^{S}/D_0$ & Confidence interval of $D_{E}^{S}/D_0$ &  $G_{l}$ \\
     \midrule
-     $\Omega$  & 0,0005 & 0,0099 & 0,0005 & 0,0082 \\
-     $\Omega_{n_{5}}$ & 0,0012 & 0,0099 & 0,0012 & 0,0082 \\
-    $\Omega_{n_{50}}$ & 0,0002 & 0,0028 & 0,0002 & 0,0021 \\
-    $\Omega_{n_{100}}$ & 0,0001 & 0,0016 & 0,0001 & 0,0016 \\
-    $\Omega_{\sigma_{0.2}}$ & 0,0004 & 0,0056 & 0,0004 & 0,0082 \\
-    $\Omega_{\sigma_{0.35}}$ & 0,0003 & 0,0089 & 0,0005 & 0,0075 \\
-   $\Omega_{\sigma_{0.5}}$ & 0,0007 & 0,0099 & 0,0006 & 0,0076 \\
-   $\Omega_{D_{01}}$ & 0,0004 & 0,0089 & 0,0005 & 0,0082 \\
-   $\Omega_{D_{02}}$ & 0,0003 & 0,0099 & 0,0003 & 0,0058 \\
-   $\Omega_{D_{03}}$  & 0,0006 & 0,0059 & 0,0006 & 0,0043 \\
-    $\Omega_{D_{04}}$  & 0,0006 & 0,0059 & 0,0007 & 0,0051 \\
+    $(n_{5},\sigma_{0.2},D_{01})$ & 14,58 & 14,70 & (14,68, 14,72) & 0,0012 \\
+    $(n_{5},\sigma_{0.2},D_{02})$ & 9,62  & 9,59  & (9,57, 9,60) & 0,0003 \\
+    $(n_{5},\sigma_{0.2},D_{03})$ & 6,26  & 6,11  & (6,10, 6,13) & 0,0015 \\
+    $(n_{5},\sigma_{0.2},D_{04})$ & 4,02  & 3,84  & (3,83, 3,85) & 0,0019 \\
+    $(n_{5},\sigma_{0.35},D_{01})$ & 15,65 & 15,73 & (15,70, 15,75) & 0,0008 \\
+    $(n_{5},\sigma_{0.35},D_{02})$ & 10,58 & 10,55 & (10,53, 10,56) & 0,0004 \\
+    $(n_{5},\sigma_{0.35},D_{03})$& 7,09  & 6,97  & (6,95, 6,98) & 0,0013 \\
+    $(n_{5},\sigma_{0.35},D_{04})$ & 4,71  & 4,55  & (4,53, 4,56) & 0,0016 \\
+    $(n_{5},\sigma_{0.5},D_{01})$ & 17,15 & 17,15 & (17,13, 17,17) & 0,0000 \\
+    $(n_{5},\sigma_{0.5},D_{02})$ & 11,96 & 11,89 & (11,87, 11,91) & 0,0006 \\
+    $(n_{5},\sigma_{0.5},D_{03})$ & 8,29  & 8,18  & (8,16, 8,20) & 0,0011 \\
+    $(n_{5},\sigma_{0.5},D_{04})$ & 5,72  & 5,60  & (5,58, 5,61) & 0,0012 \\
+    $(n_{50},\sigma_{0.2},D_{01})$ & 4,28  & 4,29  & (4,28, 4,29) & 0,0001 \\
+    $(n_{50},\sigma_{0.2},D_{02})$ & 1,00  & 0,98  & (0,98, 0,98) & 0,0003 \\
+    $(n_{50},\sigma_{0.2},D_{03})$ & 0,15  & 0,14  & (0,14, 0,14) & 0,0001 \\
+    $(n_{50},\sigma_{0.2},D_{04})$ & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 \\
+    $(n_{50},\sigma_{0.35},D_{01})$ & 4,82  & 4,82  & (4,81, 4,83) & 0,0000 \\
+    $(n_{50},\sigma_{0.35},D_{02})$ & 1,36  & 1,34  & (1,34, 1,35) & 0,0002 \\
+    $(n_{50},\sigma_{0.35},D_{03})$& 0,28  & 0,27  & (0,27, 0,27) & 0,0001 \\
+    $(n_{50},\sigma_{0.35},D_{04})$ & 0,04  & 0,04  & (0,04, 0,04) & 0,0000 \\
+    $(n_{50},\sigma_{0.5},D_{01})$ & 5,56  & 5,54  & (5,53, 5,55) & 0,0002 \\
+    $(n_{50},\sigma_{0.5},D_{02})$& 1,88  & 1,89  & (1,89, 1,90) & 0,0001 \\
+    $(n_{50},\sigma_{0.5},D_{03})$ & 0,51  & 0,52  & (0,52, 0,52) & 0,0002 \\
+    $(n_{50},\sigma_{0.5},D_{04})$ & 0,11  & 0,12  & (0,12, 0,12) & 0,0001 \\
+   $(n_{100},\sigma_{0.2},D_{01})$ & 3,05  & 3,05  & (3,04, 3,05) & 0,0000 \\
+   $(n_{100},\sigma_{0.2},D_{02})$  & 0,35  & 0,34  & (0,33, 0,34) & 0,0001 \\
+   $(n_{100},\sigma_{0.2},D_{03})$  & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 \\
+   $(n_{100},\sigma_{0.2},D_{04})$  & 0,00  & 0,00  & (0,00, 0,00) & 0,0000 \\
+   $(n_{100},\sigma_{0.35},D_{01})$ & 3,44  & 3,44  & (3,43, 3,44) & 0,0000 \\
+   $(n_{100},\sigma_{0.35},D_{02})$ & 0,53  & 0,52  & (0,52, 0,53) & 0,0000 \\
+   $(n_{100},\sigma_{0.35},D_{03})$& 0,04  & 0,04  & (0,04, 0,04) & 0,0000 \\
+   $(n_{100},\sigma_{0.35},D_{01})$ & 0,00  & 0,00  & (0,00, 0,00) & 0,0000 \\
     \bottomrule
     \end{tabular}%
-  \label{generalapptable}%
+  \label{lognormal1}%
 \end{table}%
+
+\begin{table}[htbp]
+  \centering
+  \caption{(Continued) Simulation and approximation results in the case of lognormal distributed failure rates}
+    \begin{tabular}{rrrcrr}
+    \toprule
+          & $D_{E}^{A}/D_0$ & $D_{E}^{S}/D_0$ & Confidence interval of $D_{E}^{S}/D_0$ &  $G_{l}$ \\
+    \midrule
+ $(n_{100},\sigma_{0.5},D_{01})$  & 3,97  & 3,96  & (3,96, 3,97) & 0,0001 \\
+   $(n_{100},\sigma_{0.5},D_{02})$ & 0,82  & 0,83  & (0,82, 0,83) & 0,0001 \\
+   $(n_{100},\sigma_{0.5},D_{03})$ & 0,10  & 0,11  & (0,11, 0,11) & 0,0001 \\
+   $(n_{100},\sigma_{0.5},D_{04})$ & 0,01  & 0,01  & (0,01, 0,01) & 0,0000 \\
+      \bottomrule
+     \end{tabular}%
+  \label{lognormal2}%
+\end{table}%
+
+% Table generated by Excel2LaTeX from sheet 'erlanguniformS100000'
+\begin{table}[htbp]
+  \centering
+  \caption{Simulation and approximation results in the case of uniform distributed failure rates}
+ \begin{tabular}{rrrcr}
+    \toprule
+          & $D_{E}^{A}/D_0$ & $D_{E}^{S}/D_0$ & Confidence interval of $D_{E}^{S}/D_0$ &  $G_{u}$ \\
+    \midrule
+    $(n_{5},\sigma_{0.2},D_{01})$ & 14,58 & 14,70 & (14,68, 14,7) & 0,0012 \\
+    $(n_{5},\sigma_{0.2},D_{02})$  & 9,62  & 9,60  & (9,58, 9,6) & 0,0002 \\
+    $(n_{5},\sigma_{0.2},D_{03})$  & 6,26  & 6,12  & (6,1, 6,12) & 0,0014 \\
+    $(n_{5},\sigma_{0.2},D_{04})$  & 4,02  & 3,83  & (3,82, 3,83) & 0,0019 \\
+    $(n_{5},\sigma_{0.35},D_{01})$ & 15,65 & 15,82 & (15,8, 15,82) & 0,0017 \\
+    $(n_{5},\sigma_{0.35},D_{02})$ & 10,58 & 10,57 & (10,55, 10,57) & 0,0001 \\
+    $(n_{5},\sigma_{0.35},D_{03})$ & 7,09  & 6,97  & (6,96, 6,97) & 0,0012 \\
+    $(n_{5},\sigma_{0.35},D_{04})$ & 4,71  & 4,53  & (4,52, 4,53) & 0,0018 \\
+    $(n_{5},\sigma_{0.5},D_{01})$ & 17,15 & 17,38 & (17,35, 17,38) & 0,0023 \\
+    $(n_{5},\sigma_{0.5},D_{02})$ & 11,96 & 12,01 & (11,99, 12,01) & 0,0005 \\
+    $(n_{5},\sigma_{0.5},D_{03})$ & 8,29  & 8,18  & (8,17, 8,18) & 0,0011 \\
+    $(n_{5},\sigma_{0.5},D_{04})$ & 5,72  & 5,54  & (5,53, 5,54) & 0,0018\\
+    $(n_{50},\sigma_{0.2},D_{01})$  & 4,28  & 4,28  & (4,28, 4,28) & 0,0001 \\
+    $(n_{50},\sigma_{0.2},D_{02})$ & 1,00  & 0,98  & (0,97, 0,98) & 0,0003 \\
+    $(n_{50},\sigma_{0.2},D_{03})$  & 0,15  & 0,13  & (0,13, 0,13) & 0,0002 \\
+    $(n_{50},\sigma_{0.2},D_{04})$  & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 \\
+    $(n_{50},\sigma_{0.35},D_{01})$ & 4,82  & 4,83  & (4,83, 4,83) & 0,0001 \\
+    $(n_{50},\sigma_{0.35},D_{02})$ & 1,36  & 1,33  & (1,33, 1,33) & 0,0003 \\
+    $(n_{50},\sigma_{0.35},D_{03})$ & 0,28  & 0,25  & (0,25, 0,25) & 0,0003 \\
+    $(n_{50},\sigma_{0.35},D_{04})$ & 0,04  & 0,03  & (0,03, 0,03) & 0,0001\\
+    $(n_{50},\sigma_{0.5},D_{01})$ & 5,56  & 5,58  & (5,57, 5,58) & 0,0002 \\
+    $(n_{50},\sigma_{0.5},D_{02})$  & 1,88  & 1,84  & (1,83, 1,84) & 0,0005 \\
+    $(n_{50},\sigma_{0.5},D_{03})$ & 0,51  & 0,46  & (0,45, 0,46) & 0,0005 \\
+    $(n_{50},\sigma_{0.5},D_{04})$ & 0,11  & 0,08  & (0,08, 0,08) & 0,0002 \\
+    $(n_{100},\sigma_{0.2},D_{01})$  & 3,05  & 3,04  & (3,04, 3,04) & 0,0000 \\
+    $(n_{100},\sigma_{0.2},D_{02})$ & 0,35  & 0,33  & (0,33, 0,33) & 0,0002 \\
+    $(n_{100},\sigma_{0.2},D_{03})$ & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 \\
+    $(n_{100},\sigma_{0.2},D_{04})$ & 0,00  & 0,00  & (0,00, 0,00) & 0,0000 \\
+    $(n_{100},\sigma_{0.35},D_{01})$ & 3,44  & 3,44  & (3,44, 3,44) & 0,0001 \\
+    $(n_{100},\sigma_{0.35},D_{02})$ & 0,53  & 0,51  & (0,51, 0,51) & 0,0002 \\
+    $(n_{100},\sigma_{0.35},D_{03})$ & 0,04  & 0,03  & (0,03, 0,03) & 0,0001 \\
+    $(n_{100},\sigma_{0.35},D_{04})$ & 0,00  & 0,00  & (0,00, 0,00) & 0,0000 \\
+    \bottomrule
+    \end{tabular}%
+  \label{uniform1}%
+\end{table}%
+
+\begin{table}[htbp]
+  \centering
+  \caption{(Continued) Simulation and approximation results in the case of uniform distributed failure rates}
+    \begin{tabular}{rrrrr}
+     \toprule
+          & $D_{E}^{A}/D_0$ & $D_{E}^{S}/D_0$ & Confidence interval of $D_{E}^{S}/D_0$ &  $G_{u}$ \\
+    \midrule
+    $(n_{100},\sigma_{0.5},D_{01})$  & 3,97  & 3,98  & (3,97, 3,98) & 0,0001 \\
+    $(n_{100},\sigma_{0.5},D_{02})$ & 0,82  & 0,79  & (0,79, 0,79) & 0,0003 \\
+    $(n_{100},\sigma_{0.5},D_{03})$ & 0,10  & 0,09  & (0,08, 0,09) & 0,0001\\
+    $(n_{100},\sigma_{0.5},D_{04})$ & 0,01  & 0,00  & (0,00, 0,00) & 0,0000 \\
+    \bottomrule
+    \end{tabular}%
+  \label{uniform2}%
+\end{table}%
+% %Table generated by Excel2LaTeX from sheet 'erlonguniform'
+%\begin{table}[htbp]
+%  \centering
+%  \caption{Results of the test bed }
+%    \begin{tabular}{lrrrr}
+%    \toprule
+%          & \multicolumn{2}{c}{Lognormal distribution} & \multicolumn{2}{c}{Uniform distribution} \\
+%          & \multicolumn{2}{c}{Gap} & \multicolumn{2}{c}{Gap} \\
+%          & \multicolumn{1}{c}{$avg$ $G_{l}$} & \multicolumn{1}{c}{$max$ $G_{l}$} & \multicolumn{1}{c}{$avg$ $G_{n}$} & \multicolumn{1}{c}{$max$ $G_{n}$} \\
+%    \midrule
+%     $\Omega$  & 0,0005 & 0,0099 & 0,0005 & 0,0082 \\
+%     $\Omega_{n_{5}}$ & 0,0012 & 0,0099 & 0,0012 & 0,0082 \\
+%    $\Omega_{n_{50}}$ & 0,0002 & 0,0028 & 0,0002 & 0,0021 \\
+%    $\Omega_{n_{100}}$ & 0,0001 & 0,0016 & 0,0001 & 0,0016 \\
+%    $\Omega_{\sigma_{0.2}}$ & 0,0004 & 0,0056 & 0,0004 & 0,0082 \\
+%    $\Omega_{\sigma_{0.35}}$ & 0,0003 & 0,0089 & 0,0005 & 0,0075 \\
+%   $\Omega_{\sigma_{0.5}}$ & 0,0007 & 0,0099 & 0,0006 & 0,0076 \\
+%   $\Omega_{D_{01}}$ & 0,0004 & 0,0089 & 0,0005 & 0,0082 \\
+%   $\Omega_{D_{02}}$ & 0,0003 & 0,0099 & 0,0003 & 0,0058 \\
+%   $\Omega_{D_{03}}$  & 0,0006 & 0,0059 & 0,0006 & 0,0043 \\
+%    $\Omega_{D_{04}}$  & 0,0006 & 0,0059 & 0,0007 & 0,0051 \\
+%    \bottomrule
+%    \end{tabular}%
+%  \label{generalapptable}%
+%\end{table}%
 
 %% Table generated by Excel2LaTeX from sheet 'erlonglognormal'
 %\begin{table}[htbp]
