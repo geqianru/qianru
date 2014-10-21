@@ -1,0 +1,803 @@
+\documentclass[preprint,12pt]{elsarticle}
+\usepackage{amsthm}
+\usepackage[english]{babel}
+\usepackage{longtable}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage{morefloats}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage[nodots]{numcompress}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\begin{document}
+\nocite{*}
+
+\begin{frontmatter}
+\title{Reliability Optimization for series systems under uncertain component reliability in the design phase}
+\author[label1]{Qianru Ge}
+\author[label1]{Hao Peng}
+\author[label1]{Geert-Jan van Houtum}
+\author[label1]{Ivo Adan}
+
+
+
+\address[label1]{Department of Industrial Engineering and Innovation Sciences, Eindhoven University of Technology, Eindhoven, The Netherlands}
+
+\begin{abstract}
+We consider an OEM who sells a series system for a customer under a Performance-Based Logistic (PBL) contract. During the design phase of the system, the OEM have to select an optimal design for each critical component in the system from all the possible alternatives with uncertain component reliability. The uncertainty  in component reliabilities can lead to large deviations of the realized system availability from the expected system availability. Upon a failure of a critical component in the system, the failed part will be replaced by a as-good-as new component. According to the PBL contract, when the total system down time exceeds a predetermined level, the OEM should pay a penalty cost to the customer with respect to the actual total downtime and a penalty rate. In this case, we formulate the Life Cycle Costs (LCC) of this multi-stage system which are affected by the uncertain component reliability. The LCC consist of design costs, repair costs and downtime costs.
+\end{abstract}
+
+\begin{keyword}
+Capital goods \sep Reliability optimization  \sep Performance-based contracting \sep Life cycle costs
+\end{keyword}
+\end{frontmatter}
+\section{Introduction}
+Capital goods are machines or products that are used by manufacturers to produce their end-products or that are used by service organizations to deliver their services. Advanced technical systems such as medical systems, manufacturing systems, defense systems are capital goods which are critical for the operational processes of their customers. System downtime of these capital goods can cause serious consequences (e.g. millions of euros of reduced production output, extra waiting time of passengers, failure of military missions). Therefore, customers of these complex systems such as hospitals, militaries and factories require high availability of these systems. On the other hand, the engineering systems involved in capital goods are becoming more and more complex due to the advancement of technologies. The maintenance and repair tasks are too challenging for customers to take care of by themselves. Thus, after-sale services such as maintenances and repairs are often needed by the customers.
+
+
+As a result, integrating services as a major sustainable source of the profit of original equipment manufacturers (OEMs) has been widely recommended by a large amount of papers in recent decades. A study conducted by Accenture (\citet{Dennis}) shows that after-sale services contribute only 25\% of the total revenue across all manufacturing companies, but are responsible for $40\%-50\%$ of the profit. Many OEMs thus has been transforming their business strategy from product-oriented to service-oriented. After selling a system, under the traditional material-based contract, the OEM is responsible for the repair of the system only within the warranty period, which is often short compared to the life cycle of the system. After the warranty period, the OEM will charge the customer for providing spare parts, maintenance, and other services to keep the availability of the systems above certain levels. This may lead to higher spare parts costs, repair costs, and labor costs, whereas system availabilities can be lower than a customer anticipated when buying the system. This undesired situation for the customer can be avoided by making better agreements with the OEM when a new system is being bought. A type of contract that may be attractive for both customers and OEMs is a Performance-Based Logistics (PBL) contract. Under a PBL contract, the OEM is responsible to meet a predetermined system availability target during a specified period, e.g., 5-10 years, and a penalty cost has to be paid to the customer when one fails to meet the system availability target. When designing the system, such system availability targets have to be taken into account.
+
+
+In this paper, we attempt to solve a system design problem. During the design phase of a system, engineers have to select a certain design from all the possible alternatives for each critical component in the system. In real life, the outcome of any development process for a certain design is uncertain with respect to the reliability requirement. For example, since the failure mechanisms of some emerging technologies (e.g., Micro-Electro-Mechanical Systems) are complex, it is often difficult to predict the actual reliability behaviors of the critical components. Therefore newly-designed devices have been found to have uncertain component reliabilities. The uncertainty in component reliabilities can lead to large deviations of the realized system availability from the expected system availability (a point estimate for the system availability). In this case, the uncertainty in component reliabilities also needs to be considered in the decision making of system design.
+
+The remainder of the paper is organized as follows:
+
+\section{Literature}
+
+\section{Notations and assumptions}
+ \subsection{Notations}
+	 %\begin{center}
+   \begin{tabular}{l l}
+   %\hline
+$i$ & Index of critical components in the system, $i \in \{1,2,...n\}$\\
+%$M_{i}$ & Set of rough design alternatives that can be used for component $i$ \\
+$j$ & Index of rough design alternatives that can be used for component $i$, $j \in \{1,2,...m_{i}\}$\\
+$T$ & The time length of the service contract period\\
+$D_0$ & Predetermined accepted total downtime in the service contract\\
+$x_{ij}$ & Decision variable of whether choosing the $j$th design of component $i$ or not\\
+$c_p$ & Penalty cost per time unit after the total system downtime exceeding $D_0$\\
+$c^{ij}_{a}$ & Design cost for the $j$th design of component $i$\\
+$c_r^{ij}$ & Repair cost per failure for the $j$th design of component $i$\\
+$r_{ij}$ & Repair time per failure for the $j$th design of component $i$\\
+$r_{i}(\boldsymbol{x_{i}})$ & Repair time per failure for component $i$\\
+$\Lambda_{ij}$ & Failure rate for the $j$th design of component $i$\\
+$\Lambda_{i}(\boldsymbol{x_{i}})$  & Failure rate of component $i$\\
+%$\Lambda(\boldsymbol{x})$  & System failure rate\\
+$\mu_{ij}$ & The expected failure rate for the $j$th design of component $i$ \\
+$\mu_{i}(\boldsymbol{x_{i}})$ & The expected failure rate of component $i$ \\
+%$\mu(\boldsymbol{x})$ & The expected system failure rate \\
+$\sigma_{ij}^{2}$ & The variance of the failure rate for the $j$th design of component $i$\\
+$\sigma_{i}^{2}(\boldsymbol{x_{i}})$ &  The variance of the failure rate for component $i$ \\
+%$\sigma^{2}(\boldsymbol{x})$ & The variance of the system failure rate \\
+%$P(x_{ij},n_{ij})$  & probability of $n_{ij}$ failures occurring in the $j$th design of component $i$ in $[0, T]$ \\
+$S(x_{ij})$ & Number of repairs for the $j$th design of component $i$ during $[0,T]$\\
+$S_{i}(\boldsymbol{x_{i}})$ & Number of repairs for component $i$ during $[0,T]$\\
+%$S(\boldsymbol{x})$ & Total number of failures in the system during $[0,T]$ \\
+$A_{i}(\boldsymbol{x_{i}})$  & Design cost of component $i$\\
+$A(\boldsymbol{x})$ & Design cost of the system\\
+%$N(x_{ij})$ & expected number of repairs occurring in the $j$th design of component $i$ in period $[0, T]$\\
+%$R_{ij}(x_{ij})$ &  expected repair cost of the $j$th design of component $i$ in $[0, T]$\\
+$R_{i}(\boldsymbol{x_{i}})$ & Expected repair cost of component $i$ in $[0, T]$\\
+$R(\boldsymbol{x})$ &  Expected repair cost of the system in $[0, T]$\\
+$D_{ij}(x_{ij})$ & Total downtime for the $j$th design of component $i$ in $[0, T]$\\
+$D_{i}(\boldsymbol{x_{i}})$& Total downtime of component $i$ in $[0, T]$\\
+$D(\boldsymbol{x})$ & Total downtime of the system in $[0, T]$\\
+$P(\boldsymbol{x})$ & Expected penalty cost due to downtime exceeding $D_{0}$ in $[0, T]$\\
+%$C_f$    & average repair cost in period $[0, T]$
+
+	\end{tabular}
+  %\end{center}
+	 \subsection{Assumptions}
+	
+   \begin{enumerate}
+   \item The components in discussion are all critical components. If a component fails, the entire system will stop functioning.
+  \item The system will be functioning for $T$ years. The exploitation phase is denoted by $[0, T]$. We assume that the system are sold at time $t=0$, and the design costs are also incurred at time $t=0$.
+  \item During the exploitation phase of the system $[0, T]$, its total downtime should be less than or equal to $D_0$ years. If the total downtime exceeds $D_0$ years, the OEM will be charged for a penalty cost with respect to the extra downtime and the penalty rate $c_p$.
+   \item The failure rates of the components are uncertain in the design phase and distributed with the same general distribution function. Components from different rough designs have different failure rate distribution parameters and design costs. The $j$th design of component $i$ has the failure rate $\Lambda_{ij}$ with mean $\mu_{ij}$ and variance $\sigma_{ij}^2$ and design cost $c_{ij}$.
+ \item The life time of each component is independent and exponentially distributed. So the number of the failures for each component over $[0, T]$ has a Poisson distribution with a failure rate $\Lambda_{i}(\boldsymbol{x_{i}})$.
+		\item	Once the rough design of a component has been chosen, the value of the component failure rate remains fixed through $[0, T]$.
+  \item Once a failure occurs, a repair will be performed. The failed part will be replaced by a ready-to-use part (repair by replacement) from the secondary supplier. The failure rate remains the same after each replacement. The repair cost $c_r^{ij}$ is fixed for each rough design.
+ 	
+	\end{enumerate}
+\section{Model description}
+During the design phase of a system, engineers have to select a certain design from all the possible alternatives for each critical component in the system. Suppose the system is comprised of $n$ critical components. If one of these critical components fails, the system as a whole stops working. Then the system can be seen to have a series system structure. For each critical component $i \in \{1,2,...,n\}$, one rough design needs to be selected from a set of all the possible alternatives, which is denoted by $\{1,2,...,m_i\}$. Each rough design candidate of component $i$ in the set $\{1,2,...,m_i\}$ has different uncertain reliability parameters and cost parameters. We aim to find out the optimal combination of rough designs for the system to minimize the average total cost over the service period $T$ of a PBL contract.
+
+The lifetimes of the components are assumed to be independent and exponentially distributed. Then for a certain rough design $j$ of component $i$ ($i \in \{1,2,...,n\}$, $j \in \{1,2,...,m_i\}$), we denote its failure rate as $\Lambda_{ij}$, which can fully describe its failure process when its lifetime distribution is exponential. However, as we mentioned in the introduction section, the outcome of any development process for a certain design is uncertain. Therefore, the failure rate $\Lambda_{ij}$ of a certain rough design $j$ for component $i$ is usually not known for sure before the development of the rough design. We use a certain distribution with a probability density function $f_{\Lambda_{ij}}(.)$ or a probability mass function $p_{\Lambda_{ij}}(.)$ to describe the random failure rate $\Lambda_{ij}$ before the development of the rough design, which reflects the prior belief/information about the reliability uncertainty of the technologies used in the rough design. In the evaluation of the average total cost over the service period $T$, these design uncertainties will be taken into account for different combinations of rough designs.
+
+The system will be sold together with a PBL contract over a service period $T$. The OEM is responsible for all the repairs within the service period, as a material-based contract. Moreover, the system availability should be above a predetermined level for the whole service period. Or in other words, the total downtime of the service period should be lower than a predetermined value $D_0$. A penalty cost will be paid by the OEM to compensate the customer if the total downtime exceeds the predetermined level. As a result, the average total cost of a system over $[0, T]$ consists of three parts: (a) design cost, (b) repair cost, and (c) penalty cost. A detailed description of the evaluation of these cost elements are given in the following subsections.
+
+
+
+\subsection{Design cost}
+	
+	Let $c^{ij}_{a}$ denote the cost of designing component $i$ according to a rough design $j$ ($i \in \{1,2,...,n\}$, $j \in \{1,2,...,m_i\}$). It includes all the costs incurred to realize a certain rough design of component during the design phase, e.g., human resources, experimental equipment, testing or prototype units, etc. Define binary decision variable $x_{ij}$ as
+	\[ x_{ij} = \left \{
+	  \begin{array} {l l}
+		0 & \quad \text {not selecting rough design $j$ for component $i$, } \\
+		1 & \quad \text {selecting rough design $j$ for component $i$. }
+		\end {array} \right.\]
+		Then the design cost for component $i$ is given by
+	 \begin{eqnarray}
+	A_{i}(\boldsymbol{x_{i}})=\sum^{m_{i}}_{j=1} {c^{ij}_{a} x_{ij}},
+\label{Ai}
+		 \end{eqnarray}
+		 where $\boldsymbol{x_{i}}=[x_{i1},x_{i2},...,x_{i,m_i}]$ represents the selection of rough designs for component $i$. Since we assume the OEM can only select one rough design from all the possible candidates for each critical component, $\sum^{m_{i}}_{j=1}{x_{ij}=1}$.
+And the total design cost for the system is given by
+\begin{eqnarray}
+	A(\boldsymbol{x})=\sum ^{n}_{i=1}A_{i}(\boldsymbol{x_{i}})=\sum ^{n}_{i=1}\sum^{m_{i}}_{j=1} {c^{ij}_{a} x_{ij}}, \label{A}
+\end{eqnarray}
+where $\boldsymbol{x}$ represents the selection plan of rough designs for all the critical components in the system.
+	
+\subsection{Repair cost}
+	
+When a failure occurs in period $[0, T]$, a repair will be performed by the OEM. We assign $c_r^{ij}$ as the repair cost for each failure of the $j$th rough design for component $i$ ($i \in \{1,2,...,n\}$, $j \in \{1,2,...,m_i\}$) respectively. The repair cost $c_r^{ij}$ corresponds to diagnosis cost, replacement cost, and other service costs for each repair. A failure-based policy for maintenance is assumed for this multi-component system in order to evaluate the maintenance cost over the service period $T$. Some other preventive maintenance policies, such as age/time-based policies or condition-based policies, can also be applied to the system, which may result in lower maintenance costs. However, at the design phase, it is usually hard to make a decision on the maintenance policies that are at the operational level. The evaluation of repair cost based on a failure-based policy is relatively accurate and conservative. Let $S_{i}(\boldsymbol{x_{i}})$ denote the total number of repairs for component $i$ during $[0,T]$. Under such a failure-based policy and the assumption that the lifetimes of components are exponentially distributed, the expected number of repairs for component $i$ during $[0,T]$, $\mathbb{E}[S_{i}(\boldsymbol{x_{i}})]$, equals the product of the failure rate and the service period $\Lambda_i(\boldsymbol{x_{i}}) T$ (Barlow and Proschan 1967), which is still a random variable in our formulation due to the randomness of failure rate $\Lambda_{i}(\boldsymbol{x_{i}})$. The the expectation of $\mathbb{E}[S_{i}(\boldsymbol{x_{i}})]$ is given by
+%$E[N_{i}(T)]$
+\begin {eqnarray}
+\mathbb{E}_{\Lambda_{i}(\boldsymbol{x_{i}})} \bigg\{ \mathbb{E}\bigg[S_{i}(\boldsymbol{x_{i}})\bigg] \bigg\}=\mathbb{E}\bigg[\Lambda_{i}(\boldsymbol{x_{i}})T\bigg] =\mathbb{E}\bigg(\sum_{j=1}^{m_{i}}{\Lambda_{ij}x_{ij}}T\bigg)=\sum_{j=1}^{m_{i}}{\mu_{ij}x_{ij}}T,
+\end {eqnarray}
+where $\mathbb{E}_{\Lambda_{i}(\boldsymbol{x_{i}})}$ denotes the expectation over the distribution of $\Lambda_{i}(\boldsymbol{x_{i}})$, $\Lambda_{i}(\boldsymbol{x_{i}})=\sum_{j=1}^{m_{i}}{\Lambda_{ij}x_{ij}}$ is the random failure rate of component $i$ given a certain rough design $\boldsymbol{x_i}$, and $\mu_{ij}$ is the mean value of $\Lambda_{ij}$. Then the expected repair cost for component $i$, $R_{i}(\boldsymbol{x_{i}})$, is the product of the repair cost per failure and the expected number of repairs, which is also a random variable. The expectation of $R_{i}(\boldsymbol{x_{i}})$ over the distribution of $\Lambda_i(\boldsymbol{x_{i}})$ is given as
+\begin {eqnarray}
+\mathbb{E}_{\Lambda_{i}(\boldsymbol{x_{i}})} \bigg[ R_{i}(\boldsymbol{x_{i}}) \bigg]=\mathbb{E}\bigg(\sum_{j=1}^{m_{i}}{\Lambda_{ij}c_r^{ij}x_{ij}}T\bigg)= \sum_{j=1}^{m_{i}}{\mu_{ij}c_r^{ij}x_{ij}}T. \label{ERi}
+\end {eqnarray}
+
+Given that the failure processes of all the critical components are independent of each other, the expected system repair cost $R(\boldsymbol{x})$ in $[0,T]$ is the sum of $R_{i}(\boldsymbol{x_i}), \forall i \in \{1,2,...,n\}$. The expectation of $R(\boldsymbol{x})$ over all the distributions of $\Lambda_{1}(\boldsymbol{x_{1}}),\Lambda_{2}(\boldsymbol{x_{2}}),..., \Lambda_{n}(\boldsymbol{x_{n}})$ is given as
+\begin {eqnarray}
+\mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[ R(\boldsymbol{x}) \bigg]= \mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[ \sum_{i=1}^{n}R_{i}(\boldsymbol{x_{i}}) \bigg]=\sum_{i=1}^{n}\sum_{j=1}^{m_{i}}{\mu_{ij}c_r^{ij}x_{ij}}T. \label{ER}
+\end {eqnarray}
+where $\mathbb{E}_{\Lambda(\boldsymbol{x})}$ denotes the expectation over all the independent distributions of $\Lambda_{1}(\boldsymbol{x_{1}}),\Lambda_{2}(\boldsymbol{x_{2}}),..., \Lambda_{n}(\boldsymbol{x_{n}})$.
+The variance of the expected system repair cost with respect to the random failure rates can be expressed as
+\begin {eqnarray}
+ Var_{\Lambda(\boldsymbol{x})} \bigg[ R(\boldsymbol{x}) \bigg]  &=&Var_{\Lambda(\boldsymbol{x})} \bigg[ \sum_{i=1}^{n}R_{i}(\boldsymbol{x_{i}}) \bigg]
+= \sum_{i=1}^{n} Var_{\Lambda_i(\boldsymbol{x_{i}})}\bigg[R_{i}(\boldsymbol{x_i})\bigg] \nonumber \\
+ &=& \sum_{i=1}^{n} Var_{\Lambda_i(\boldsymbol{x_{i}})}(\sum_{j=1}^{m_{i}}{\Lambda_{ij}c_r^{ij}x_{ij}}T) \nonumber\\
+&=& \sum_{i=1}^{n} \sum_{j=1}^{m_{i}}{(c_r^{ij}x_{ij}}T)^2 Var(\Lambda_{ij}).
+\end {eqnarray}
+
+\subsection{Penalty cost}
+A period of system downtime $r_{ij}(r_{ij}<<T)$ will be incurred due to a random failure of component $i$ with rough design $j$ in the system ($i \in \{1,2,...,n\}$, $j \in \{1,2,...,m_i\}$). Notice that while evaluating the repair costs in the previous section we ignore the downtime since the downtime is usually negligible compared with the service period $T$. However, under a PBL contract, when the total system downtime over the service period $T$ exceeds a predetermined value $D_0$, a penalty cost should be paid by the OEM to customers with a rate $c_p$. The predetermined target value $D_0$ is at the same scale as $r_{ij}$. We assume the system downtime of each failure varies among different components with different rough designs. Hence the total system downtime $D{(\boldsymbol{x})}$ over the service period $T$ is dependent on the number of failures $S_{i}(\boldsymbol{x_{i}})$ and the repair time per failure $r_{i}(\boldsymbol{x_{i}})$ for component $i$,$\forall i\in \{1,\dots,n\}$ in $[0,T]$. The repair time per failure for component $i$, $r_{i}(\boldsymbol{x_{i}})=\sum_{j=1}^{m_{i}}{r_{ij}x_{ij}}$, is a fixed value after the selection plan for component $i$ has been made. Notice that the number of failures from component $i$, $S_{i}(\boldsymbol{x_i})$, is a Poisson distributed random variable, whose distribution is given as
+
+\begin {eqnarray}
+Pr\bigg[S_{i}(\boldsymbol{x_i})=s_{i}\bigg]&=&\frac{e^{-\Lambda_{i}(\boldsymbol x_{i})T}}{s_{i}!}{\bigg[\Lambda_{i}(\boldsymbol{x_{i}})T\bigg]}^{s_{i}} \nonumber\\
+&=& \frac{e^{-\sum_{j=1}^{m_{i}}{\Lambda_{ij}x_{ij}T}}(\sum_{j=1}^{m_{i}}{\Lambda_{ij}x_{ij}T})^{s_{i}}}{s_{i}!}.
+\end {eqnarray}
+And the system downtime can be expressed as
+\begin{eqnarray}
+D(\boldsymbol{x})= r_{1}(\boldsymbol{x_{1}})S_{1}(\boldsymbol{x_{1}})+r_{2}(\boldsymbol{x_{2}})S_{2}(\boldsymbol{x_{2}})+\ldots+r_{n}(\boldsymbol{x_{n}})S_{n}(\boldsymbol{x_{n}}).
+\label{D}
+\end{eqnarray}
+
+According to the service contract, the OEM should pay a penalty cost to the customer, when $D(\boldsymbol{x})$ exceeds the predetermined target downtime $D_{0}$. The expected penalty cost due to extra downtime exceeding $D_{0}$ is given as
+\begin{eqnarray}
+P(\boldsymbol{x})& = & \mathbb{E}_{S}\bigg\{\bigg[D(\boldsymbol{x})-D_{0}\bigg]^{+} c_{p} \bigg\} \nonumber\\
+&=& \mathbb{E}_{S}\bigg\{\bigg[\sum_{i=1}^{n}{S_{i}(\boldsymbol{x_{i}})r_{i}(\boldsymbol{x_i})}-D_{0}\bigg]^{+} c_{p} \bigg\} \nonumber\\
+&=&\sum_{s_{1}=0}^{\infty}{Pr\bigg[S_{1}(\boldsymbol{x_{1}})=s_{1}\bigg]}\dots\sum_{s_{n}=0}^{\infty}{Pr\bigg[S_{n}(\boldsymbol{x_{n}})=s_{n}\bigg]} \bigg[\sum_{i=1}^{n}{s_{i}r_{i}(\boldsymbol{x_{i}})}-D_{0}\bigg]^{+}c_{p} \nonumber\\
+&=& \sum_{s_{1}=0}^{\infty}{\frac{e^{-\Lambda_{1}(\boldsymbol{x_{1}})T}(\Lambda_{1}(\boldsymbol{x_{1}})T)^{s_{1}}}{s_{1}!}}\dots\sum_{s_{n}=0}^{\infty}{\frac{e^{-\Lambda_{n}(\boldsymbol{x_{n}})T}(\Lambda_{n}(\boldsymbol{x_{n}})T)^{s_{n}}}{s_{n}!}} \nonumber\\
+ &&\bigg[\sum_{i=1}^{n}{s_{i}r_{i}(\boldsymbol{x_{i}})}-D_{0}\bigg]^{+}c_{p}.
+\end{eqnarray}
+
+Since the failure rates $\Lambda_{1}(\boldsymbol{x_{1}}),\Lambda_{2}(\boldsymbol{x_{2}}),...,\Lambda_{n}(\boldsymbol{x_{n}})$ are random variables, the expected penalty cost is a random variable as well. Without loss of generality, we assume the failure rates are continuous random variables, with probability density functions $f_{\Lambda_{ij}}(.)$ over region $\mathcal{O}_{ij}$. Then for component $i$ with a certain design $\boldsymbol{x_{i}}$, the probability density function of the failure rate is $f_{\Lambda_{i}(\boldsymbol{x_{i}})}(.)$ over region $\mathcal{O}_{i}(\boldsymbol{x_{i}})$ and the expectation of $P(\boldsymbol{x})$ can be expressed as
+\begin{eqnarray}
+&& \mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[P(\boldsymbol{x}) \bigg]=
+\idotsint_{\lambda_{i} \in \mathcal{O}_{i}(\boldsymbol{x_i})} \sum_{s_{1}=0}^{\infty}{\frac{e^{-\lambda_{1}T}(\lambda_{1}T)^{s_{1}}}{s_{1}!}}\dots\sum_{s_{n}=0}^{\infty}{\frac{e^{-\lambda_{n}T}(\lambda_{n}T)^{s_{n}}}{s_{n}!}} \nonumber\\
+&&\bigg[\sum_{i=1}^{n}{s_{i}r_{i}(\boldsymbol{x_{i}})}-D_{0}\bigg]^{+}c_{p}\prod_{i=1}^{n}{f_{\Lambda_{i}(\boldsymbol{x_{i}})}(\lambda_{i})d\lambda_{1}\dots d\lambda_{n}}. \label{EP2}
+\end{eqnarray}
+The variance of $P(\boldsymbol{x})$ can be expressed as
+\begin{eqnarray}
+&&Var_{\Lambda(\boldsymbol{x})} \bigg[ P(\boldsymbol{x}) \bigg]=
+\idotsint_{\lambda_{i} \in \mathcal{O}_{i}(\boldsymbol{x_{i}})} \sum_{s_{1}=0}^{\infty}{\frac{e^{-\lambda_{1}T}(\lambda_{1}T)^{s_{1}}}{s_{1}!}}\dots\sum_{s_{n}=0}^{\infty}{\frac{e^{-\lambda_{n}T}(\lambda_{n}T)^{s_{n}}}{s_{n}!}}\nonumber\\
+&&\bigg\{\bigg[\sum_{i=1}^{n}{s_{i}r_{i}(\boldsymbol{x_{i}})}-D_{0}\bigg]^{+}c_{p} -\mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[ P(\boldsymbol{x}) \bigg]\bigg\}^{2} \prod_{i=1}^{n} f_{\Lambda_{i}(\boldsymbol{x_{i}})}(\lambda_{i}) \ d\lambda_{1}\dots d\lambda_{n}.
+\end{eqnarray}
+
+\subsection{Optimization model}
+The OEM is interested in minimizing the expected total life cycle cost $\pi(\boldsymbol{x})$, which is the sum of the total design cost $A(\boldsymbol{x})$, the expected system repair cost $R(\boldsymbol{x})$ and the expected penalty cost $P(\boldsymbol{x})$. Due to the randomness of the failure rates $\Lambda_{1}(\boldsymbol{x_{1}}),\Lambda_{2}(\boldsymbol{x_{2}}),...,\Lambda_{n}(\boldsymbol{x_{n}})$ in rough designs, the expected total life cycle cost $\pi(\boldsymbol{x})$ is random. If the decision maker is risk-neutral, the optimization model of this problem can be formulated as
+\begin{eqnarray}
+\text{(P)} \hspace{15mm} & min_{\boldsymbol{x}} & \hspace{10mm} \mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[ \pi(\boldsymbol{x})\bigg] \nonumber\\
+& \text{ s.t. }&  \hspace{5mm} \sum_{j=1}^{m_i}{x_{ij}}=1, \hspace{10mm} \forall i \in \{1,2,...,n\} \nonumber\\
+& & \hspace{5mm} x_{ij} \in \{0,1\}, \hspace{10mm}  \forall i \in \{\1,2,...,n}, j \in \{1,2,...,m_i\}
+\end{eqnarray}
+where $\pi(\boldsymbol{x})=A(\boldsymbol{x})+R(\boldsymbol{x})+P(\boldsymbol{x})$. Notice that in the above optimization formulation, although we do not include a probability constraint on the distribution of $\pi(\boldsymbol{x})$, the variance of $\pi(\boldsymbol{x})$ still gets penalized by the third cost term $P(\boldsymbol{x})$ in the objective function. This optimization problem is difficult to solve because of the complicated form of the objective function. In the objective function, the expected penalty cost $P(\boldsymbol{x})$ is a multiple integration over the ranges of the random failure rates, which is difficult to calculate. Therefore, in the next section, an approximation method will be proposed to make the evaluation of the objective function easier. 
+
+%\paragraph{\textbf{Proposition 1}} \textit{For component $i$, if there exist indices $k$ and $l\in J_{i}$ such that $\mu_{ik}\leq \mu_{il}$, $\sigma_{ik}\leq \sigma_{il}$, $c^{ik}_{a}\geq c^{il}_{a} $, $c^{ik}_{r}\geq c^{il}_{r} $ and $r_{ik} \leq r_{il}$ },  then the optimal solution of the problem (P) has $x_{il}=0$
+%
+%\paragraph{\textbf{Proof}} The proof is given in \ref{Pro1}.
+
+
+\section{Approximate evaluation}
+
+In this section, we will describe how to evaluate a given selection plan of rough designs for all the critical components in the system approximately. For a given policy $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$, the design cost $A(\boldsymbol{x})$ and the expected repair cost $\mathbb{E}_{\Lambda(\boldsymbol{x})} \big[ R(\boldsymbol{x}) \big]$ can be determined from Equation \eqref{A} and \eqref{ER}. These two cost terms are linear functions of the decision variables $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$.  
+
+
+For the exact evaluation of the expected penalty cost $\mathbb{E}_{\Lambda(\boldsymbol{x})}\big[P(\boldsymbol{x})\big]$ of a given policy $\boldsymbol{x}$, we will suffer from the ``curse of dimensionality" when the number of critical components becomes large, since each critical component contributes a dimension in computing the convolution and integration in Equation \eqref{EP2}. The computation time will become intractable as the number of cirtical components grows. (In a special case, if the repair time $r$ for each rough design of each component is the same, the system downtime equals the product of the number of failures of the system and $r$. In this case, we only need to compute the integration part. But we will still face the ``curse of dimensionality" in computing the integration part.) With the consideration of the real life situation, we introduce an approximation method to help estimate the expected penalty cost. Remember that the expected penalty cost is the expected exceeding downtime multiplied with the penalty cost rate, i.e., $\big[D(\boldsymbol{x})-D_0\big]^{+}c_p$. Then if we can find an approximation method to calculate the distribution of the system downtime $D(\boldsymbol{x})$ efficiently, it will become relatively easy to evaluate the expected penalty cost in the objective function.
+
+%$\mu_{i}(\boldsymbol{x_{i}})$, $\sigma_{i}(\boldsymbol{x_{i}})$,
+%\subsection{Approximation evaluation}
+\subsection{Two-moment fits of the downtime distributions}
+
+As we mentioned before, the total downtime $D(\boldsymbol{x})$ is the summation of the downtimes for all critical components and the number of failures for each component is Poisson distributed. In the approximate evaluation, we approximate the downtime by fitting a mixed Erlang distribution to the first two moments of $D(\boldsymbol{x})$. From Equation \eqref{D}, we can obtain the first moment, variance and second moment of $D(\boldsymbol{x})$ over the distributions of $S_{i}(\boldsymbol{x_{i}})$ ($i=1,2,\dots,n$) are given by
+\begin{eqnarray}
+\mathbb{E}_{S}\bigg[D(\boldsymbol{x})\bigg]=\mathbb{E}_{S}\bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})S_{i}(\boldsymbol{x_{i}})}\bigg]=\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T},
+\label{ED1}\\
+Var_{S}\bigg[D(\boldsymbol{x})\bigg]=\sum_{i=1}^{n}{Var_{S}\bigg[{r_{i}(\boldsymbol{x_{i}})S_{i}(\boldsymbol{x_{i}})}\bigg]}=\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T},
+\label{VD1}\\
+\mathbb{E}_{S}\bigg[D^{2}(\boldsymbol{x}) \bigg]= \bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]^{2} + \sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}.
+\end{eqnarray}
+
+The first moment $\mu_{D}$, variance $\sigma^{2}_{D}$ and the coefficient of variation $c_{v}$  of $D(\boldsymbol{x})$ over the distributions of $S_{i}(\boldsymbol{x_{i}})$ and $\Lambda_{i}(\boldsymbol{x_{i}})$ are given by
+\begin{eqnarray}
+\mu_{D}(\boldsymbol{x})&=&\mathbb{E}_{\Lambda(\boldsymbol{x})}\bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]=T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})},
+\label{muD}\\
+\sigma^{2}_{D}(\boldsymbol{x})&=&\mathbb{E}_{\Lambda(\boldsymbol{x})}\mathbb{E}_{S} \bigg[D^{2}(\boldsymbol{x}) \bigg]- \bigg\{\mathbb{E}_{\Lambda(\boldsymbol{x})}\mathbb{E}_{S}\bigg[D(\boldsymbol{x}) \bigg] \bigg\}^{2} \nonumber\\
+&=& \mathbb{E}_{\Lambda(\boldsymbol{x})}\bigg[\bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]^{2} +\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]-\bigg[T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}\bigg]^{2}\nonumber\\
+&=&T^{2}\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_i})\sigma_{i}^{2}(\boldsymbol{x_i})}+T\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}
+\label{sigma}\\
+c_{v}(\boldsymbol{x}) &=& \frac{\sigma_{D}(\boldsymbol{x})}{\mu_{D}(\boldsymbol{x})}
+
+where $\mu_{i}(\boldsymbol{x_i})$ and $\sigma_{i}(\boldsymbol{x_i})$ is the mean and standard deviation of $\Lambda_{i}(\boldsymbol{x_i})$ respectively.
+%%\mu_{D^{2}}(\boldsymbol{x})&=&
+%T^{2}\sum_{i=1}^{n}r_{i}(\boldsymbol{x_i})^{2}\int_{\lambda_{i}(\boldsymbol{x_i})\in\Lambda_{i}(\boldsymbol{x_i})}{\lambda_{i}(\boldsymbol{x_i})^{2}f(\lambda_{i}(\boldsymbol{x_i}))d\lambda_{i}(\boldsymbol{x_i})}\nonumber\\
+%&&+2T^{2}\sum_{i=1}^{n}\sum_{i\ne j}{r_{i}(\boldsymbol{x_i})r_{j}(\boldsymbol{x_j})\mu_{i}(\boldsymbol{x_i})\mu_{j}(\boldsymbol{x_j})}\nonumber\\
+%&&+T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})^{2}\mu_{i}(\boldsymbol{x_i})}
+\end{eqnarray}
+
+Given that $\mu_{D}>0$, and $0<c_{v}\leq 1$, according to Tijms 1994, we fit the downtime distribution to an Erlang$(k-1,k)$ distribution with parameters$(k,\theta,q_{E})$ such that the first two moments of $D(\boldsymbol{x})$ equal the first two moments of the Erlang $(k-1,k)$ distribution. Thus the parameters of the Erlang $(k-1,k)$ distribution can be obtained as
+\begin{eqnarray}
+&&k(\boldsymbol{x}) = \lceil \frac{1}{c_{v}^{2}(\boldsymbol{x})} \rceil, \label{k1}\\
+&&q_{E}(\boldsymbol{x})= \frac{1}{1+c^{2}_{v}(\boldsymbol{x})}\bigg[k(\boldsymbol{x})c^{2}_{v}(\boldsymbol{x})-\sqrt{k(\boldsymbol{x})\big[1+c^{2}_{v}(\boldsymbol{x})\big]-k^{2}(\boldsymbol{x})c^{2}_{v}(\boldsymbol{x})} \bigg], \label{q1}\\
+&&\theta(\boldsymbol{x}) = \frac{k(\boldsymbol{x})-q_{E}(\boldsymbol{x})}{\mu_{D}(\boldsymbol{x})}. \label{theta1}
+\end{eqnarray}
+
+ Then for random failure rates $\Lambda_{1}(\boldsymbol{x_{1}})$, $\Lambda_{2}(\boldsymbol{x_{2}})$,..., $\Lambda_{n}(\boldsymbol{x_{n}})$ the expected exceeding total downtime can be approximated by
+\begin{eqnarray}
+&&D_{E_{1}}^{A}(\boldsymbol{x})=\mathbb{E}_{\Lambda}\mathbb{E}_{S}\bigg\{\big[D(\boldsymbol{x})-D_{0}\big]^{+}\bigg\} \nonumber\\
+%&&=(\frac{k-q}{\theta}-D_{0})\sum_{j=0}^{k-1}{\frac{(\theta(\boldsymbol{x})D_{0})^j}{j!}e^{-\theta(\boldsymbol{x})D_{0}}}\nonumber\\
+&&=\bigg[\frac{k(\boldsymbol{x})-q_{E}(\boldsymbol{x})}{\theta(\boldsymbol{x})}-D_{0}\bigg]\sum_{j=0}^{k(\boldsymbol{x})-2}{\frac{\big[\theta(\boldsymbol{x}) D_{0}\big]^j}{j!}e^{-\theta(\boldsymbol{x})D_{0}}}\nonumber\\
+&&+\bigg[\frac{k(\boldsymbol{x})-q_{E}(\boldsymbol{x})}{\theta(\boldsymbol{x})}\bigg]\frac{\big[\theta(\boldsymbol{x})D_{0}\big]^{k(\boldsymbol{x})-1}}{\big[k(\boldsymbol{x})-1\big]!}e^{-\theta(\boldsymbol{x})D_{0}}.
+\label{EXD1}
+\end{eqnarray}
+The derivation is given in Appendix.
+
+
+If $c_{v} \geq 1$, we fit the downtime distribution to an Hyperexponential distribution with parameters$(\theta_{1},\theta_{2}, q_{H})$ such that the first two moments of $D(\boldsymbol{x})$ equal the first two moments of the Hyperexponential distribution. Thus the parameters of the Hyperexponential distribution can be obtained as
+\begin{eqnarray}
+     \theta_{1}(\boldsymbol{x}) &=& \frac{2}{\mu_{D}(\boldsymbol{x})}\bigg(1+\sqrt{\frac{c^{2}_{v}(\boldsymbol{x})-\frac{1}{2}}{c^{2}_{v}(\boldsymbol{x})+1}} \bigg), \label{theta11}\\
+     \theta_{2}(\boldsymbol{x}) &=& \frac{4}{\mu_{D}(\boldsymbol{x})} - \theta_{1}(\boldsymbol{x}), \label{theta12}\\
+     q_{H}(\boldsymbol{x}) &=& \frac{\theta_1(\boldsymbol{x})(\theta_2(\boldsymbol{x})\mu_{D}(\boldsymbol{x})-1)}{\theta_2(\boldsymbol{x}) -\theta_1(\boldsymbol{x})}. \label{q2}
+\end{eqnarray}
+Then the expected exceeding total downtime can be approximated by
+\begin{eqnarray}
+D_{E_{2}}^{A}(\boldsymbol{x}) =\frac{q_{H}(\boldsymbol{x})}{\theta_{1}(\boldsymbol{x})} e^{-\theta_{1}(\boldsymbol{x}) D_0 } + \frac{1-q_{H}(\boldsymbol{x})}{\theta_{2}(\boldsymbol{x})} e^{-\theta_{2}(\boldsymbol{x}) D_0} \label{EXD2}
+\end{eqnarray}
+The derivation can be found in Appendix \ref{AG}.
+
+
+The procedure of the approximation evaluation method is illustrated in the following algorithm.
+
+\textbf{Algorithm 1}
+\label{Algorithm1}
+\begin{description}
+\item[Step 1] Compute the $\mu_{D}(\boldsymbol{x})$, $\sigma^{2}_{D}(\boldsymbol{x})$ and $c_{v}(\boldsymbol{x})$ of the downtime distribution, check the value of $c_{v}(\boldsymbol{x})$: if $0<c_{v}(\boldsymbol{x}) \leq 1$, go to step 2; if $c_{v}(\boldsymbol{x}) > 1$, go to step 3.
+\item[Step 2] Fit the first two moments of an Erlang$(k-1, k)$ distribution to be equal to the first two moments of the downtime distribution.
+ \begin{description}
+ \item[Step 2-a] Let $k(\boldsymbol{x})$, $\theta(\boldsymbol{x})$ and $q_{E}(\boldsymbol{x})$ be the parameters of the fitted Erlang$(k-1,k)$ distribution, and compute the values of $k(\boldsymbol{x})$, $\theta(\boldsymbol{x})$ and $q_{E}(\boldsymbol{x})$ according to Equation \eqref{k1},\eqref{q1} and \eqref{theta1}.
+ \item[Step 2-b] Calculate the expected exceeding total downtime $D_{E1}^A(\boldsymbol{x})$ according to Equation \eqref{EXD1}.
+\end{description}
+\item[Step 3] Fit the first two moments of a Hyperexponential distribution to be equal to the first two moments of the downtime distribution.
+
+\begin{description}
+ \item[Step 3-a] Let $\theta_{1}(\boldsymbol{x})$, $\theta_{2}(\boldsymbol{x})$ and $q_{H}(\boldsymbol{x})$ be the parameters of the fitted Hyperexponential distribution, compute the values of these parameters according to Equation \eqref{theta11}, \eqref{theta12} and \eqref{q2}.
+ \item[Step 3-b] Compute the expected exceeding total downtime $D_{E2}^A(\boldsymbol{x})$ according to Equation \eqref{EXD2} .
+\end{description}
+
+\end{description}
+
+\subsection{Accuracy of the approximation}
+To assess the accuracy of the approximation of the expected exceeding downtime $D_{E}^{A}(\boldsymbol{x})$, we use Monte Carlo simulation method to generate the simulation results $D_{E}^{S}(\boldsymbol{x})$ according to \ref{MCP}, so that the comparison between $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$ can be made. A full factorial test bed is set up to show the accuracy of the approximation under different parameter settings. We investigate the effect of three factors: the number of the critical components $n$, standard deviation $\sigma_{i}(\boldsymbol{x_i})$ of the failure rate for each component and the predetermined targeted downtime $D_{0}$. Notice that although the standard deviation $\sigma_i$ is a function of the design $\boldsymbol{x_i}$, we will treat it as a parameter of the approximation model or simulation model to assess the approximation accuracy without loss of generality. Similarly, for $\mu_i(\boldsymbol{x_i})$ and $r_i(\boldsymbol{x_i})$ in the calculation of $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$, we will also treat them as parameters ($\mu_i , r_i$) of the approximation model or simulation model. 
+
+The instance space $\Omega$ is thus defined by all combinations of the choices for the three factors, i.e., $(n_{\alpha},\sigma_{\beta},D_{\gamma}) \in \Omega$, $\forall \alpha \in \{5,50,100\}, \beta \in \{0.2,0.35,0.5\}, \gamma \in \{01,02,03,04\}$. The values of choices for each factor are shown in Table \ref{tab:testbedps}. In the test bed, the factor $D_{\gamma}$ is a coefficient to generate different values of $D_0$ by the following expression,
+ \begin{eqnarray}
+ D_{0}(\boldsymbol{x}) = D_{\gamma}\sum_{i=1}^{n}{\mu_{i} r_{i} T}, \label{D0}
+\end{eqnarray}
+where $\sum_{i=1}^{n}{\mu_{i} r_{i} T}$ is the expected total downtime. Thus, if $D_{\gamma}$ is one, the targeted downtime $D_0$ is set to be equal to the expected total downtime.
+There are 36 instances in the test bed $\Omega$. The setting of the fixed parameters in the test bed is given in Table \ref{tab:testbedmur}. $r_{i}$ varies for different $i$ by taking a value from {1, 3, 5}. $\mu_{i}$ varies for different $i$ as a sequence. Both lognormal distribution and uniform distribution are assumed as the distributions for the failure rates in this study. 
+
+%The number of the components $n$ in the system will affect the complexity, accuracy and computation time of our model. Different values of $\sigma_{i}$ reflect different deviation levels of the failure rate distributions. For the same sequence of $\mu_{i}$, higher $\sigma_{i}$ level results in higher exceeded total downtime. In our test beds we define $D_0$ as:
+% \begin{eqnarray}
+% D_{0}(\boldsymbol{x}) = D_{f}\sum_{i=1}^{n}{\sum_{j=1}^{m_{i}}{\mu_{ij}r_{ij}x_{ij}T}} \label{D0}
+%\end{eqnarray}
+%where $D_{f}$ is the level factor of $D_{0}(\boldsymbol{x})$, it reflects the intensity of the penalty policy service given by the customer within the service contract period $T$. Larger $D_{f}$ leads to small exceeded total downtime, furthermore, small penalty costs.
+
+\begin{table}[htbp]
+  \centering
+  \caption{The parameter setting of the test bed}
+    \begin{tabular}{lll}
+    \toprule
+  $n_{\alpha}$ & $\sigma_{\beta} (\forall i \in \{\1,...,n_{\alpha}})$ & $D_{\gamma}$\\
+    \midrule
+    5, 50, 100 & 0.2$\mu_{i}$, 0.35$\mu_{i}$, 0.5$\mu_{i}$ & $ 1, 1.1, 1.2, 1.3$ \\
+  \bottomrule
+    \end{tabular}%
+  \label{tab:testbedps}%
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter values for $\mu_{i}$ and $r_{i}$, $i=\{1,2,...,n_{\alpha}\}$}
+    \begin{tabular}{llll}
+    \toprule
+    n_{\alpha} & $T$ &$\mu_{i}$ &  $r_{i}$\\
+    \midrule
+    $5$   &10& $\{0.500, 0.250, 0.167, 0.125, 0.100\}$ &$\{1,3,5,1,3\}$\\
+    $50$  &10& $\{1,...,1/(\frac{1}{\mu_{i-1}}+0.182),...,0.101\}$ &$\{1,3,5,1,3,5,...,3\}$\\
+    $100$ &10& $\{1,...,1/(\frac{1}{\mu_{i-1}}+0.091),...,0.100\}$ &$\{1,3,5,1,3,5,...,1\}$\\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:testbedmur}%
+\end{table}
+
+We present the results of the test bed in Table \ref{lognormal1} and \ref{uniform1}. To see how the approximation results deviate from the simulation results for each instance, we first compute the proportion of the expected exceeding downtime in the targeted total downtime, i.e., $D_{E}^{A}/D_0$ for the approximation model and $D_{E}^{S}/D_0$ for the simulation model, as well as the confidence intervals of the simulation results.  Then the accuracy of our approximation is assessed by the gaps between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$. For lognormally-distributed failure rates, the gaps are denoted as $G_l$; for uniformly-distributed failure rates, the gaps are denoted as $G_n$.  
+
+which are denoted as $avg$ $ G_l$ and $max $ $G_l$ for lognormally-distributed failure rates, and denoted as $avg$ $G_n$ and $max$ $G_n$ for uniformly-distributed failure rates . The detailed results of $D_{E}^{A}/D_0$, $D_{E}^{S}/D_0$, confidence interval of the simulation result $D_{E}^{S}/D_0$, $avg$ $G$ and $max$ $G$ for each instance are shown in Table \ref{lognormal1} for lognormally-distributed failure rates and Table \ref{uniform1} for uniformly-distributed failure rates of \ref{detailapptable}. To take a better overview of the gaps, in Table \ref{generalapptable}, the comparison between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$ are made by computing $avg$ $G$ and $max$ $G$ for each level of every factor. For example, in the second row of Table \ref{generalapptable}, $avg$ $G$ and $max$ $G$ represent the average gap and maximum gap of the subset $\Omega_{n_{5}}=\{(n_{5},\sigma_{\beta},D_{\gamma})|\beta\in\{0.2,0.35,0.5\},\gamma\in\{01,02,03,04\}\}$ (when $n=5$).
+
+From the results in Table \ref{generalapptable}, the first insight we can get is that both $avg$ $G$ and $max$ $G$ are relatively small for different cases, which means our approximation is relatively accurate under various parameter settings. Furthermore, our approxi mation method has the highest accuracy for the cases where $n$ is large and $\sigma$ is small. Our approximation has done very well for all the cases where $n=50$ and $n=100$. When $n=5$, the value of the extra total downtime $D_{E}$ is relatively small, even slight difference can results in relatively large gap between $D_{E_{p}}^{A}$ and $D_{E_{p}}^{S}$. With $\sigma$ increasing, the $avg$ $G$ is also increasing. This is because the deviations in $\lambda_{i}$ increases the complexity of predicting the total downtime. In large $D_{0}$s, relative large $avg$ $G$ can be observed, this is also because the value of $D_{E}$ becomes very close to zero. Note that our computation time for all the instances are negligible. The estimation of the probability density function of the downtime distribution by simulation and approximation are show in Figure \ref{fig:lognormal} and Figure \ref{fig:uniform}.
+
+%We can also observe that both $D_{E_{p}}^{S}$ and $D_{E_{p}}^{A}$ is much lower for a system with a larger number of components than for a system with small number of components. And $D_{E_{p}}$ is increasing while $\sigma$ is increasing.
+
+ %Table generated by Excel2LaTeX from sheet 'erlonguniform'
+\begin{table}[htbp]
+  \centering
+  \caption{Results of the test bed }
+    \begin{tabular}{lrrrr}
+    \toprule
+          & \multicolumn{2}{c}{Lognormal distribution} & \multicolumn{2}{c}{Uniform distribution} \\
+          & \multicolumn{2}{c}{Gap} & \multicolumn{2}{c}{Gap} \\
+          & \multicolumn{1}{c}{$avg$ $G_{l}$} & \multicolumn{1}{c}{$max$ $G_{l}$} & \multicolumn{1}{c}{$avg$ $G_{n}$} & \multicolumn{1}{c}{$max$ $G_{n}$} \\
+    \midrule
+     $\Omega$  & 0,0005 & 0,0099 & 0,0005 & 0,0082 \\
+     $\Omega_{n_{5}}$ & 0,0012 & 0,0099 & 0,0012 & 0,0082 \\
+    $\Omega_{n_{50}}$ & 0,0002 & 0,0028 & 0,0002 & 0,0021 \\
+    $\Omega_{n_{100}}$ & 0,0001 & 0,0016 & 0,0001 & 0,0016 \\
+    $\Omega_{\sigma_{0.2}}$ & 0,0004 & 0,0056 & 0,0004 & 0,0082 \\
+    $\Omega_{\sigma_{0.35}}$ & 0,0003 & 0,0089 & 0,0005 & 0,0075 \\
+   $\Omega_{\sigma_{0.5}}$ & 0,0007 & 0,0099 & 0,0006 & 0,0076 \\
+   $\Omega_{D_{01}}$ & 0,0004 & 0,0089 & 0,0005 & 0,0082 \\
+   $\Omega_{D_{02}}$ & 0,0003 & 0,0099 & 0,0003 & 0,0058 \\
+   $\Omega_{D_{03}}$  & 0,0006 & 0,0059 & 0,0006 & 0,0043 \\
+    $\Omega_{D_{04}}$  & 0,0006 & 0,0059 & 0,0007 & 0,0051 \\
+    \bottomrule
+    \end{tabular}%
+  \label{generalapptable}%
+\end{table}%
+
+%% Table generated by Excel2LaTeX from sheet 'erlonglognormal'
+%\begin{table}[htbp]
+%  \centering
+%  \caption{Results of the test bed under lognormal distribution}
+%    \begin{tabular}{lrrrr}
+%    \toprule
+%          & $avg$ $D_{E_{p}}^{A}$ & $avg$ $D_{E_{p}}^{S_{l}}$ & $avg$ $G_{l}$ & $max$ $G_{l}$  \\
+%    \midrule
+%   $\Lambda_{n_{5}}$  & 10,10 & 10,01 & 0,0012 & 0,0099 \\
+%   $\Lambda_{n_{50}}$ & 1,81  & 1,81  & 0,0002 & 0,0028 \\
+%    $\Lambda_{n_{100}}$ & 1,11  & 1,11  & 0,0001 & 0,0016 \\
+%     $\Lambda_{\sigma_{0.2}}$  & 3,61  & 3,58  & 0,0004 & 0,0056 \\
+%    $\Lambda_{\sigma_{0.35}}$  & 4,23  & 4,21  & 0,0003 & 0,0089 \\
+%      $\Lambda_{\sigma_{0.5}}$  & 5,18  & 5,14  & 0,0007 & 0,0099 \\
+%  $\Lambda_{D_{01}}$ & 8,39  & 8,38  & 0,0004 & 0,0089 \\
+%$\Lambda_{D_{02}}$ & 4,50  & 4,48  & 0,0003 & 0,0099 \\
+%    $\Lambda_{D_{03}}$& 2,71  & 2,67  & 0,0006 & 0,0059 \\
+%    $\Lambda_{D_{04}}$  & 1,76  & 1,71  & 0,0006 & 0,0059 \\
+%     $\Lambda$ & 4,34  & 4,31  & 0,0005 & 0,0099 \\
+%    \bottomrule
+%    \end{tabular}%
+%  \label{generalapplog}%
+%\end{table}%
+%
+%% Table generated by Excel2LaTeX from sheet 'erlonguniform'
+%\begin{table}[htbp]
+%  \centering
+%  \caption{Results of the test bed under uniform distribution}
+%    \begin{tabular}{lrrrr}
+%    \toprule
+%          & $avg$ $D_{E_{p}}^{A}$ & $avg$ $D_{E_{p}}^{S_{u}}$ & $avg$ $G_{u}$ & $max$ $G_{u}$  \\
+%    \midrule
+%    $\Lambda_{n_{5}}$ & 9,64  & 9,59  & 0,0012 & 0,0082 \\
+%    $\Lambda_{n_{50}}$ & 1,67  & 1,65  & 0,0002 & 0,0021 \\
+%   $\Lambda_{n_{100}}$ & 1,03  & 1,02  & 0,0001 & 0,0016 \\
+%     $\Lambda_{\sigma_{0.2}}$  & 3,61  & 3,58  & 0,0004 & 0,0082 \\
+%    $\Lambda_{\sigma_{0.35}}$ & 4,04  & 4,02  & 0,0005 & 0,0075 \\
+%     $\Lambda_{\sigma_{0.5}}$ & 4,67  & 4,65  & 0,0006 & 0,0076 \\
+%  $\Lambda_{D_{01}}$  & 8,05  & 8,10  & 0,0005 & 0,0082 \\
+%   $\Lambda_{D_{02}}$  & 4,23  & 4,21  & 0,0003 & 0,0058 \\
+%     $\Lambda_{D_{03}}$ & 2,53  & 2,47  & 0,0006 & 0,0043 \\
+% $\Lambda_{D_{04}}$ & 1,63  & 1,56  & 0,0007 & 0,0051 \\
+%        $\Lambda$ & 4,11  & 4,08  & 0,0005 & 0,0082 \\
+%    \bottomrule
+%    \end{tabular}%
+%  \label{generalappuniform}%
+%\end{table}%
+
+\section{Optimization}
+
+In the previous section, we have discussed how a given policy, which is the selection of rough designs for all the critical components in the system can be evaluated in an approximate way. In this section, we will describe a method of finding a feasible policy for problem (P) with as low life cycle costs as possible. The problem is formulated as a binary integer programming with a nonlinear objective function.
+%which is equivalent to a knapsack problem with multiple-choice constraints, so that is $NP$-hard (Garey and Johnson 1979).
+
+According to Eq. \eqref{EXD1}, the expected penalty costs $\mathbb{E}_{\Lambda(\boldsymbol(X))}[P(\boldsymbol(X))]$ of problem (P) can be written as:
+\begin{eqnarray}
+\mathbb{E}_{\Lambda(\boldsymbol{x})}[P_{A}(\boldsymbol{x})]&=&c_{p}(\frac{k(\boldsymbol{x})-q(\boldsymbol{x})}{\theta(\boldsymbol{x})}-D_{0})\sum_{j=0}^{k(\boldsymbol{x})-2}{\frac{(\theta(\boldsymbol{x}) D_{0})^j}{j!}e^{-\theta(\boldsymbol{x}) D_{0}}}\nonumber\\
+&&+c_{p}(\frac{k(\boldsymbol{x})-q(\boldsymbol{x})}{\theta(\boldsymbol{x})})\frac{(\theta(\boldsymbol{x})D_{0})^{k(\boldsymbol{x})-1}}{(k(\boldsymbol{x})-1)!}e^{-\theta(\boldsymbol{x})D_{0}}
+\end{eqnarray}
+The we have the optimization problem formulated as:
+\begin{eqnarray}
+\text{($P_{A}$)} \hspace{15mm} & min_{\boldsymbol{x}} & \hspace{10mm} \mathbb{E}_{\Lambda} \bigg[ \pi_{A}(\boldsymbol{x})\bigg] \nonumber\\
+& \text{ s.t. }&  \hspace{5mm} \sum_{j=1}^{m_i}{x_{ij}}=1, \hspace{10mm} \forall i \in \{1,2,...,n\} \nonumber
+\end{eqnarray}
+where $\pi_{A}(\boldsymbol{x})=A(\boldsymbol{x})+R(\boldsymbol{x})+P_{A}(\boldsymbol{x})$.
+
+
+%The branch-and-bound (B\&B) method is the most widely used algorithm for solving Integer programming problems. However, according to Taha 1975, the original (B\&B) method in the Land-Doig method is not suitable to solve a non-linear integer programming (NIP) problem, because the validity of the branching rules requires linearity assumption. Dakin 1965 proposed a modified Land-Doig method proposed by makes the branching rule suitable for solving non-linear integer programming problem, under the condition that the objective function and each constraint function with respect to decision variables are concave and convex, respectively. Lee \textit {et al}. 1994 presented a B\&B method for solving separable convex integer programming problems. Sung and Cho 2000 have solved a reliability optimization problem of designing a hardware system involving numerous discrete choices among available component types among reliability, cost, performance, weight, etc. using an efficient B\&B problem. Since Sung and Cho 2000 generated upper bounds and lower bounds for each stage of their problem, the objective function should be decomposable. Another method for solving NIP problems is intelligent enumeration proposed by Taha 1975. Taha's method can only solve polynomial IP problems. For large reality problems, exact methods are lacking since they require a very large amount of computation time and specific properties of the objective function and constraints.
+\subsection{Exact analysis}
+\subsection{Numerical example}
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter explanation of the numerical example}
+    \begin{tabular}{ll}
+    \toprule
+    Parameter & Explanation \\
+    \midrule
+    $c_{a}^{ij}$ & acquistion costs of each desgin \\
+    $c_{r}^{ij}=c_{a}^{ij}*\{5\%, 10\%, 20\%\}$ & repair costs of each design  \\
+    $r_{ij}$ & repair time, randomly generated by a $U(2,48)$ distribution  \\
+    $\mu_{ij}$ & mean of the failure rate, $\mu_{i1}$ are randomly generated\\
+     & from $U(0.1, 0.3)$, $\mu_{2i}$ are randomly generated from $U(0.4, 0.6)$ \\
+    $\sigma_{ij}$ & $\sigma_{i1}=\mu_{i1}*\{20\%, 35\%, 50\%\}$, $\sigma_{i2}=\mu_{i2}*\{35\%, 50\%, 20\%\}$ \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter design of the numberical example}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+Comp.          & \multicolumn{5}{c}{Alternative design 1} & \multicolumn{5}{c}{Alternative design 2} \\
+Number    & $c_{a}^{i1}$ & $c_{r}^{i1}$ & $r_{i1}$ & $\mu_{i1}$ & $\sigma_{i1}$ & $c_{a}^{i2}$ & $c_{r}^{i2}$ & $r_{i2}$ & $\mu_{i2}$ & $\sigma_{i2}$ \\
+    \midrule
+    1     & 10000 & 500   & 12    & 0,23  & 0,05  & 5000  & 250   & 32    & 0,47  & 0,17 \\
+    2     & 9675  & 967,5 & 32    & 0,17  & 0,06  & 4837,5 & 483,75 & 25    & 0,41  & 0,20 \\
+    3     & 9350  & 1870  & 28    & 0,15  & 0,07  & 4675  & 935   & 16    & 0,45  & 0,09 \\
+    4     & 9025  & 451,25 & 10    & 0,25  & 0,05  & 4512,5 & 225,625 & 35    & 0,60  & 0,21 \\
+    5     & 8700  & 870   & 41    & 0,14  & 0,05  & 4350  & 435   & 14    & 0,46  & 0,23 \\
+    6     & 8375  & 1675  & 5     & 0,25  & 0,12  & 4187,5 & 837,5 & 25    & 0,51  & 0,10 \\
+    7     & 8050  & 402,5 & 11    & 0,21  & 0,04  & 4025  & 201,25 & 27    & 0,53  & 0,18 \\
+    8     & 7725  & 772,5 & 12    & 0,24  & 0,08  & 3862,5 & 386,25 & 38    & 0,55  & 0,27 \\
+    9     & 7400  & 1480  & 12    & 0,14  & 0,07  & 3700  & 740   & 2     & 0,54  & 0,11 \\
+    10    & 7075  & 353,75 & 8     & 0,29  & 0,06  & 3537,5 & 176,875 & 23    & 0,52  & 0,18 \\
+    11    & 6750  & 675   & 20    & 0,14  & 0,05  & 3375  & 337,5 & 15    & 0,55  & 0,27 \\
+    12    & 6425  & 1285  & 34    & 0,21  & 0,11  & 3212,5 & 642,5 & 4     & 0,46  & 0,09 \\
+    13    & 6100  & 305   & 31    & 0,20  & 0,04  & 3050  & 152,5 & 9     & 0,53  & 0,18 \\
+    14    & 5775  & 577,5 & 8     & 0,26  & 0,09  & 2887,5 & 288,75 & 21    & 0,57  & 0,29 \\
+    15    & 5450  & 1090  & 16    & 0,29  & 0,14  & 2725  & 545   & 10    & 0,58  & 0,12 \\
+    16    & 5125  & 256,25 & 41    & 0,16  & 0,03  & 2562,5 & 128,125 & 15    & 0,42  & 0,15 \\
+    17    & 4800  & 480   & 47    & 0,18  & 0,06  & 2400  & 240   & 17    & 0,44  & 0,22 \\
+    18    & 4475  & 895   & 33    & 0,27  & 0,13  & 2237,5 & 447,5 & 27    & 0,51  & 0,10 \\
+    19    & 4150  & 207,5 & 9     & 0,16  & 0,03  & 2075  & 103,75 & 27    & 0,50  & 0,18 \\
+    20    & 3825  & 382,5 & 19    & 0,20  & 0,07  & 1912,5 & 191,25 & 33    & 0,45  & 0,23 \\
+    21    & 3500  & 700   & 33    & 0,25  & 0,12  & 1750  & 350   & 9     & 0,54  & 0,11 \\
+    22    & 3175  & 158,75 & 46    & 0,12  & 0,02  & 1587,5 & 79,375 & 30    & 0,43  & 0,15 \\
+    23    & 2850  & 285   & 5     & 0,11  & 0,04  & 1425  & 142,5 & 19    & 0,48  & 0,24 \\
+    24    & 2525  & 505   & 37    & 0,13  & 0,07  & 1262,5 & 252,5 & 30    & 0,44  & 0,09 \\
+    25    & 2200  & 110   & 21    & 0,28  & 0,06  & 1100  & 55    & 9     & 0,53  & 0,19 \\
+    26    & 1875  & 187,5 & 6     & 0,19  & 0,07  & 937,5 & 93,75 & 37    & 0,57  & 0,28 \\
+    27    & 1550  & 310   & 34    & 0,14  & 0,07  & 775   & 155   & 26    & 0,42  & 0,08 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+
+\begin{table}[htbp]
+  \centering
+  \caption{Optimization results of the numerical example for problem $P_{A}$ by complete enumeration}
+    \begin{tabular}{rrrll}
+    \toprule
+    n     & $D_{0}$  &$\mathbb{E}_{\Lambda} \bigg[ \pi(\boldsymbol{x})\bigg]$  & $\boldsymbol{x}$  & CPU time(s) \\
+    \midrule
+    2     & 167,45 & 24882 & 11    & 0 \\
+    3     & 224,45 & 37013 & 112   & 0 \\
+    4     & 341,95 & 42103 & 1121  & 0 \\
+    5     & 402,85 & 49398 & 11212 & 0 \\
+    6     & 472,85 & 58924 & 122121 & 0 \\
+    7     & 555,95 & 65847 & 1221211 & 0 \\
+    8     & 674,85 & 73646 & 12212211 & 0 \\
+    9     & 688,65 & 81178 & 122122112 & 0 \\
+    10    & 760,05 & 87580 & 1221221121 & 0 \\
+    11    & 815,3 & 94690 & 12212111222 & 0 \\
+    12    & 860,2 & 99836 & 122122112122 & 0 \\
+    13    & 915,05 & 103603 & 1221221121222 & 1 \\
+    14    & 985,3 & 109704 & 12212211212221 & 2 \\
+    15    & 1037,5 & 115784 & 122122112122212 & 4 \\
+    16    & 1101,8 & 119121 & 1221221121222122 & 8 \\
+    17    & 1181,5 & 123020 & 12212211212221222 & 16 \\
+    18    & 1294,9 & 129466 & 122121112222212222 & 32 \\
+    19    & 1369,6 & 131993 & 1221221121222122221 & 64 \\
+    20    & 1462,85 & 135476 & 22212111212221222211 & 129 \\
+    21    & 1528,4 & 138689 & 122122112222212222112 & 261 \\
+    22    & 1620,5 & 141239 & 1221221122222122221121 & 526 \\
+    23    & 1668,85 & 143169 & 12212211222221222211211 & 1062 \\
+    24    & 1758,9 & 145565 & 222122112122212222112111 & 2119 \\
+    25    & 1812,15 & 146897 & 2221221121222122221121112 & 4330 \\
+    26    & 1923,3 & 146089 & 22212211222221222211211121 & 8732 \\
+    27    & 2001,7 & 147558 & 222122112222212222112111211 & 17485 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+% Table generated by Excel2LaTeX from sheet 'Sheet2'
+\begin{table}[htbp]
+  \indent
+  \caption{Optimization results for deterministic model setting }
+    \begin{tabular}{rrrlrrr}
+    \toprule
+    $n$     & $D_{0}$  & $\pi(\boldsymbol{x}_{D})$ & $\boldsymbol{x}_{D}$ & $\mathbb{E}_{\Lambda} \bigg[ \pi(\boldsymbol{x}_{D})\bigg]$ & $\Delta$ & $\% \Delta$ \\
+    \midrule
+    2     & 167,45 & 17971 & 12    & 34048 & 9166  & 26,92\% \\
+    3     & 224,45 & 26853 & 122   & 50456 & 13443 & 26,64\% \\
+    4     & 341,95 & 35304 & 2211  & 73908 & 31804 & 43,03\% \\
+    5     & 402,85 & 41655 & 22112 & 84661 & 35263 & 41,65\% \\
+    6     & 472,85 & 50945 & 222121 & 83758 & 24834 & 29,65\% \\
+    7     & 555,95 & 59009 & 2211221 & 106884 & 41037 & 38,39\% \\
+    8     & 674,85 & 65132 & 22222111 & 128448 & 54803 & 42,67\% \\
+    9     & 688,65 & 72828 & 222221112 & 134873 & 53695 & 39,81\% \\
+    10    & 760,05 & 77309 & 2221222121 & 137112 & 49532 & 36,12\% \\
+    11    & 815,30 & 82700 & 22212211222 & 145550 & 50860 & 34,94\% \\
+    12    & 860,20 & 88708 & 222122212122 & 152331 & 52495 & 34,46\% \\
+    13    & 915,05 & 92566 & 2221222121222 & 153838 & 50235 & 32,65\% \\
+    14    & 985,30 & 98663 & 22212221221221  & 159213 & 49509 & 31,10\% \\
+    15    & 1037,50 & 104549 & 222122212212212  & 168340 & 52556 & 31,22\% \\
+    16    & 1101,80 & 107650 & 2221222122122122  & 172421 & 53300 & 30,91\% \\
+    17    & 1181,50 & 111106 & 22212221221221222  & 176535 & 53515 & 30,31\% \\
+    18    & 1294,90 & 115625 & 222122212212212222  & 196383 & 66917 & 34,07\% \\
+    19    & 1369,60 & 117644 & 2221222122222122221 & 197933 & 65940 & 33,31\% \\
+    20    & 1462,85 & 121862 & 22212221222222222111  & 206425 & 70949 & 34,37\% \\
+    21    & 1528,40 & 125390 & 222222112222212222112  & 209560 & 70871 & 33,82\% \\
+    22    & 1620,50 & 126496 & 2221222122222222221121  & 211114 & 69875 & 33,10\% \\
+    23    & 1668,85 & 129659 & 22212221222222222211211  & 196555 & 53386 & 27,16\% \\
+    24    & 1758,90 & 131297 & 222222212222212222112111  & 223816 & 78251 & 34,96\% \\
+    25    & 1812,15 & 132689 & 2222222122222122221121112 & 223276 & 76378 & 34,21\% \\
+    26    & 1923,30 & 132177 & 22222221222222222211211121  & 227036 & 80947 & 35,65\% \\
+    27    & 2001,70 & 134161 & 222222212222222222112111211 & 217550 & 69992 & 32,17\% \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+\section{Conclusion}
+
+\section{Appendices:}
+\appendix
+%\section{Simulation procedures}
+%\section{Proof of Proposition 1}
+%\label{Pro1}
+%Suppose that
+\section{Procedures of the Monte Carlo simulation}
+\label{MCP}
+\begin{description}
+\item[Step 1]
+First, we generated the sequences of $r_{i}$, $\mu_{i}$ and $\sigma_{i}$, $i=\{1,2,...,n\}$. Then we get $D_0$ immediately from Eq. \eqref{D0}. Furthermore, we take one sample $\hat{\Lambda}_{i}$ from $\Lambda_{i} \sim G(\mu_{i},\sigma_{i})$ for each component to simulate its failure rate $\lambda_{i}$, where $G(\mu_{i},\sigma_{i})$ is a general distribution with parameter mean $\mu_{i}$ and standard deviation $\sigma_{i}$. Given that the number of failures of each component $s_{i}$ is Poisson distributed with parameter $\lambda_{i}T$, we take one sample $\hat{S}_{i}$ from $S_{i}\sim$Pois$(\hat{\Lambda}_{i}T)$. Together with $r_{i}$, we get one simulation result $\hat{D}_{E_{p}}^{S}$ of the proportion of the exceeded total downtime $D_{E_{p}}$ computed as following:
+\begin{eqnarray}
+\hat{D}_{E_{p}}^{S}=\frac{\sum_{i=1}^{n}{\hat{S}_{i}r_{i}}-D_0}{\sum_{i=1}^{n}{\hat{S}_{i}r_{i}}}
+\end{eqnarray}
+
+\item[Step 2]
+
+Repeat step 1 for 10000 times to get 10000 $\hat{D}_{E_{p}}^{S}$, we take the expected value $\bar{D}_{E_{p}}^{S}$ of all the $\hat{D}_{E_{p}}^{S}$ and compare it with the approximation result $D_{E_{p}}^{A}$ according to Eqs. \eqref{EXD1} or \eqref{EXD2}  to get a value of the absolute gap between $\bar{D}_{E_{p}}^{S}$ and $D_{E_{p}}^{A}$.
+
+\item[Step 3]
+
+Repeat step 3 for 50 times to generate final simulation results of $D_{E_{p}}$, $D_{E_{p}}^{S}$. And the mean value $avg$ $G$, maximum value $max$ $G$ and the confidence interval for $D_{E_{p}}^{S}$ of the gap between $D_{E_{p}}^{S}$ and $D_{E_{p}}^{A}$. The 95\% percent confidence interval is given as:
+$$(D_{E_{p}}^{S}-t_{(49,2.5\%)}\sqrt{\frac{S^{2}(50)}{50}},\hspace{3mm}D_{E_{p}}^{S}+t_{(49,2.5\%)}\sqrt{\frac{S^{2}(50)}{50}} ) $$
+
+\end{description}
+
+\section{Derivations for the two-moment fits method}
+\label{AG}
+\subsection{The first two moments of the downtime distribution}
+The mean $\mu_{D}(\boldsymbol{x})$ of $\mathbb{E}_{S}\bigg[D(\boldsymbol{x})\bigg]$ are given by:
+\begin{eqnarray}
+\mu_{D}(\boldsymbol{x})=\mathbb{E}_{\Lambda(\boldsymbol{x})}\mathbb{E}_{S} \bigg[D(\boldsymbol{x}) \bigg]=T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}=\frac{k(\boldsymbol{x})-q(\boldsymbol{x})}{\theta(\boldsymbol{x})}
+\label{muD}
+\end{eqnarray}
+The variance $\sigma_{D}(\boldsymbol{x})$ of $D(\boldsymbol{x})$ is given by:
+\begin{eqnarray}
+\sigma^{2}_{D}(\boldsymbol{x})&=&\mathbb{E}_{\Lambda(\boldsymbol{x})}\mathbb{E}_{S} \bigg[D^{2}(\boldsymbol{x}) \bigg]- \bigg\{\mathbb{E}_{\Lambda(\boldsymbol{x})}\mathbb{E}_{S}\bigg[D(\boldsymbol{x}) \bigg] \bigg\}^{2} \nonumber\\
+&=& \mathbb{E}_{\Lambda(\boldsymbol{x})}\bigg[\bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\lambda_{i}(\boldsymbol{x_{i}})T}\bigg]^{2} +\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_{i}})\lambda_{i}(\boldsymbol{x_{i}})T}\bigg]-\bigg[T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}\bigg]^{2}\nonumber\\
+&=&\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})T}\nonumber\\
+&=&\frac{\sqrt{k(\boldsymbol{x})-q^{2}(\boldsymbol{x})}}{\lambda(\boldsymbol{x})}
+%&=&T^{2}\sum_{i=1}^{n}r_{i}(\boldsymbol{X})^{2}\int_{\lambda_{i}\in\Lambda_{i}}{\lambda_{i}^{2}f(\lambda_{i})d\lambda_{i}}+2T^{2}\sum_{i=1}^{n}\sum_{i\ne j}{r_{i}(\boldsymbol{X_{i}})r_{j}(\boldsymbol{X_{j}})\mu_{i}(\boldsymbol{X_{i}})\mu_{j}(\boldsymbol{X_{j}})} \nonumber\\
+%&&+T\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{X_{i}})\mu_{i}(\boldsymbol{X_{i}})}-\bigg[T\sum_{i=1}^{n}{r_{i}(\boldsymbol{X_i})\mu_{i}(\boldsymbol{X_i})}\bigg]^{2}\nonumber\\
+\end{eqnarray}
+\subsection{Identities for the Erlang$(k-1,k)$ distribution}
+Consider an Erlang$(k-1,k)$ distribution $X$ with parameters $(k,\theta,q)$, the probability density function of is
+\begin{eqnarray}
+e_{k-1,k}(x)=q\theta^{k-1}\frac{x^{k-2}}{(k-2)!}e^{-\theta x} + (1-q)\theta^{k}\frac{x^{k-1}}{(k-1)!}e^{-\theta x} \nonumber
+\end{eqnarray}
+the cumulative distribution function of $X$ is
+\begin{eqnarray}
+E_{k-1,k}(x)=q\bigg(1-\sum_{j=0}^{k-2}\frac{(\theta x)^{j}}{j!}e^{-\theta x} \bigg)+(1-q)\bigg(1-\sum_{j=0}^{k-1}\frac{(\theta x)^{j}}{j!}e^{-\theta x} \bigg) \nonumber
+\end{eqnarray}
+Then the first partial moment of the Erlang$(k-1,k)$ can be described as:
+\begin{eqnarray}
+\mathbb{E}{[(X-X_{0})^{+}]} &=& \int_{0}^{\infty}{(x-X_{0})^{+}e_{k-1,k}(x)d x} \nonumber\\
+&=& \frac{q(k-1)}{\theta}\bigg[1-E_{k}^{\theta}(X_{0})\bigg]+\frac{k(1-q)}{\theta}\bigg[1-E_{k+1}^{\theta}(X_{0})\bigg]-X_{0}\bigg[1-E_{k-1,k}^{\theta}(X_{0})\bigg] \nonumber\\
+&=&(\frac{k-q}{\theta}-X_{0})\sum_{j=0}^{k-2}{\frac{(\theta X_{0})^j}{j!}e^{-\theta X_{0}}}+(\frac{k-q}{\theta})\frac{(\theta X_{0})^{k-1}}{(k-1)!}e^{-\theta X_{0}}\nonumber
+\end{eqnarray}
+
+\subsection{Identities for the Hyperexponential distribution}
+For a Hyperexponential distribution $X$ with parameters $(\theta_1,\theta_2,q)$, the probability density function is given as:
+\begin{eqnarray}
+h_{2}(x) = q\theta_{1}e^{-\theta_{1}x} + (1-q)\theta_{2}e^{-\theta_{2}x} \nonumber
+\end{eqnarray}
+the cumulative distribution function is given as:
+\begin{eqnarray}
+H_{2}(x) = q(1-e^{-\theta_{1}x})+(1-q)(1-e^{-\theta_{2}x}) \nonumber
+\end{eqnarray}
+And the first partial moment is given as:
+\begin{eqnarray}
+\mathbb{E}{[(X-X_{0})^{+}]} &=& \int^{\infty}_{0}(x-X_{0})^{+}h_{2}(x)dx \nonumber\\
+&=& \int^{\infty}_{X_{0}}{xq\theta_{1}e^{-\theta_{1}x}dx} + \int^{\infty}_{X_{0}}{x(1-q)\theta_{2}e^{-\theta_{2}x}dx}-X_{0}\bigg[1-H_{2}(X_{0}) \bigg] \nonumber\\
+&=& qX_{0}e^{-\theta_{1}X_{0}} + (1-q)X_{0}e^{-\theta_{2}X_{0}} + \frac{q}{\theta_{1}}\bigg[1-F_{\theta_{1}}(X_{0})\bigg]+\frac{1-q}{\theta_{2}}\bigg[1-F_{\theta_{2}}(X_{0}) \bigg] \nonumber\\
+&&-X_{0}\bigg[ 1- H_{2}(X_{0})\bigg] \nonumber
+\end{eqnarray}
+
+\section{Detail results of the test bed}
+\label{detailapptable}
+\begin{table}[htbp]
+  \centering
+  \caption{Simulation and approximation results in the case of lognormal distributed failure rates and mixed Erlang distribution}
+    \begin{tabular}{rrrcrr}
+    \toprule
+          & $D_{E_{p}}^{A}$ & $D_{E_{p}}^{S_{l}}$ & Confidence interval of $D_{E_{p}}^{S_{l}}$ & $avg$ $G_{l}$ & $max$ $G_{l}$ \\
+    \midrule
+$(n_{5},\sigma_{0.2},D_{01})$& 14,58 & 14,67 & (14.60, 14.73) & 0,0009 & 0,0056 \\
+$(n_{5},\sigma_{0.2},D_{02})$& 9,62  & 9,59  & (9.54, 9.63) & 0,0003 & 0,0040 \\
+$(n_{5},\sigma_{0.2},D_{03})$ & 6,26  & 6,11  & (6.07, 6.15) & 0,0015 & 0,0047 \\
+$(n_{5},\sigma_{0.2},D_{04})$& 4,02  & 3,82  & (3.79, 3,85) & 0,0020 & 0,0041 \\
+$(n_{5},\sigma_{0.35},D_{01})$ & 16,09 & 16,15 & (16.06, 16.23) & 0,0006 & 0,0089 \\
+$(n_{5},\sigma_{0.35},D_{02})$& 11,00 & 10,98 & (10.91, 11.05) & 0,0002 & 0,0062 \\
+$(n_{5},\sigma_{0.35},D_{03})$ & 7,46  & 7,33  & (7.27, 7.38) & 0,0013 & 0,0059 \\
+$(n_{5},\sigma_{0.35},D_{04})$ & 5,02  & 4,85  & (4.81, 4.89) & 0,0017 & 0,0041 \\
+$(n_{5},\sigma_{0.5},D_{01})$ & 18,34 & 18,20 & (18.11, 18.28) & 0,0014 & 0,0073 \\
+$(n_{5},\sigma_{0.5},D_{02})$ & 13,04 & 12,87 & (12.79, 12.96) & 0,0017 & 0,0099 \\
+$(n_{5},\sigma_{0.5},D_{03})$ & 9,25  & 9,11  & (9.05, 9.16) & 0,0014 & 0,0052 \\
+$(n_{5},\sigma_{0.5},D_{04})$ & 6,54  & 6,41  & (6.36, 6.47) & 0,0013 & 0,0059 \\
+ $(n_{50},\sigma_{0.2},D_{01})$& 4,28  & 4,28  & (4.26, 4.29) & 0,0000 & 0,0012 \\
+ $(n_{50},\sigma_{0.2},D_{02})$& 1,00  & 0,98  & (0.97, 0.99) & 0,0003 & 0,0010 \\
+ $(n_{50},\sigma_{0.2},D_{03})$& 0,15  & 0,14  & (0.14, 0.14) & 0,0001 & 0,0004 \\
+ $(n_{50},\sigma_{0.2},D_{04})$ & 0,02  & 0,01  &  (0.01, 0.01) & 0,0000 & 0,0001 \\
+ $(n_{50},\sigma_{0.35},D_{01})$ & 5,05  & 5,04  &  (5.02, 5.07) & 0,0001 & 0,0017 \\
+ $(n_{50},\sigma_{0.35},D_{02})$ & 1,52  & 1,51  &  (1.50, 1.52) & 0,0001 & 0,0010 \\
+ $(n_{50},\sigma_{0.35},D_{03})$ & 0,34  & 0,34  &  (0.33, 0.34) & 0,0000 & 0,0003 \\
+ $(n_{50},\sigma_{0.35},D_{04})$ & 0,06  & 0,06  &  (0.06, 0.06) & 0,0000 & 0,0002 \\
+ $(n_{50},\sigma_{0.5},D_{01})$ & 6,12  & 6,08  &  (6.05, 6.11) & 0,0004 & 0,0028 \\
+ $(n_{50},\sigma_{0.5},D_{02})$ & 2,31  & 2,32  &  (2.30, 2.34) & 0,0001 & 0,0013 \\
+ $(n_{50},\sigma_{0.5},D_{03})$  & 0,72  & 0,76  &  (0.75, 0.77) & 0,0003 & 0,0011 \\
+ $(n_{50},\sigma_{0.5},D_{04})$  & 0,19  & 0,23  &  (0.22, 0.23) & 0,0004 & 0,0007 \\
+ $(n_{100},\sigma_{0.2},D_{01})$& 3,05  & 3,04  &  (3.02, 3.05) & 0,0001 & 0,0016 \\
+ $(n_{100},\sigma_{0.2},D_{02})$ & 0,35  & 0,33  &  (0.33, 0.34) & 0,0002 & 0,0006 \\
+ $(n_{100},\sigma_{0.2},D_{03})$ & 0,02  & 0,01  &  (0.01, 0.01) & 0,0000 & 0,0001 \\
+ $(n_{100},\sigma_{0.2},D_{04})$& 0,00  & 0,00  &  (0.00, 0.00) & 0,0000 & 0,0000 \\
+ $(n_{100},\sigma_{0.35},D_{01})$ & 3,60  & 3,60  &  (3.59, 3.62) & 0,0000 & 0,0011 \\
+ $(n_{100},\sigma_{0.35},D_{02})$ & 0,61  & 0,61  &  (0.61, 0.62) & 0,0000 & 0,0003 \\
+ $(n_{100},\sigma_{0.35},D_{03})$ & 0,05  & 0,05  &  (0.05, 0.06) & 0,0000 & 0,0001 \\
+ $(n_{100},\sigma_{0.35},D_{04})$& 0,00  & 0,00  &  (0.00, 0.00) & 0,0000 & 0,0000 \\
+    \bottomrule
+    \end{tabular}%
+  \label{lognormal1}%
+\end{table}%
+
+
+\begin{table}[htbp]
+  \centering
+  \caption{(Continued) Simulation and approximation results in the case of lognormal distributed failure rates and mixed Erlang distribution}
+    \begin{tabular}{rrrcrr}
+    \toprule
+          & $D_{E_{p}}^{A}$ & $D_{E_{p}}^{S_{l}}$ & Confidence interval of $D_{E_{p}}^{S_{l}}$ & $avg$ $G_{l}$ & $max$ $G_{l}$ \\
+    \midrule
+ $(n_{100},\sigma_{0.5},D_{01})$& 4,38  & 4,36  &  (4.34, 4.38) & 0,0002 & 0,0016 \\
+ $(n_{100},\sigma_{0.5},D_{02})$ & 1,07  & 1,10  &  (1.09, 1.11) & 0,0003 & 0,0010 \\
+ $(n_{100},\sigma_{0.5},D_{03})$ & 0,17  & 0,19  &  (0.19, 0.20) & 0,0002 & 0,0005 \\
+ $(n_{100},\sigma_{0.5},D_{04})$& 0,02  & 0,03  &  (0.03, 0.03) & 0,0001 & 0,0002 \\
+    \bottomrule
+    \end{tabular}%
+  \label{lognormal2}%
+\end{table}%
+
+% Table generated by Excel2LaTeX from sheet 'lognormal'
+\begin{table}[htbp]
+  \centering
+  \caption{Simulation and approximation results in the case of uniform distributed failure rates and mixed Erlang distribution}
+ \begin{tabular}{rrrcrr}
+    \toprule
+& $D_{E_{p}}^{A}$ & $D_{E_{p}}^{S_{u}}$ & Confidence interval of $D_{E_{p}}^{S_{u}}$ & $avg$ $G_{u}$ & $max$ $G_{u}$ \\
+    \midrule
+ $(n_{5},\sigma_{0.2},D_{01})$ & 14,58 & 14,68 & (14,68, 14,74) & 0,0010 & 0,0082 \\
+ $(n_{5},\sigma_{0.2},D_{02})$& 9,62  & 9,59  & (9,59, 9,64) & 0,0003 & 0,0051 \\
+ $(n_{5},\sigma_{0.2},D_{03})$ & 6,26  & 6,13  & (6,13, 6,17) & 0,0013 & 0,0037 \\
+ $(n_{5},\sigma_{0.2},D_{04})$& 4,02  & 3,84  & (3,84, 3,87) & 0,0018 & 0,0043 \\
+ $(n_{5},\sigma_{0.35},D_{01})$ & 15,65 & 15,79 & (15,79, 15,86) & 0,0014 & 0,0075 \\
+ $(n_{5},\sigma_{0.35},D_{02})$& 10,58 & 10,58 & (10,58, 10,64) & 0,0000 & 0,0058 \\
+ $(n_{5},\sigma_{0.35},D_{03})$ & 7,09  & 6,94  & (6,94, 6,99) & 0,0015 & 0,0043 \\
+ $(n_{5},\sigma_{0.35},D_{04})$ & 4,71  & 4,55  & (4,55, 4,59) & 0,0016 & 0,0047 \\
+ $(n_{5},\sigma_{0.5},D_{01})$  & 17,15 & 17,32 & (17,32, 17,41) & 0,0017 & 0,0076 \\
+ $(n_{5},\sigma_{0.5},D_{02})$ & 11,96 & 11,97 & (11,97, 12,04) & 0,0002 & 0,0058 \\
+ $(n_{5},\sigma_{0.5},D_{03})$  & 8,29  & 8,18  & (8,18, 8,22) & 0,0012 & 0,0039 \\
+ $(n_{5},\sigma_{0.5},D_{04})$ & 5,72  & 5,50  & (5,50, 5,54) & 0,0022 & 0,0051 \\
+ $(n_{50},\sigma_{0.2},D_{01})$  & 4,28  & 4,27  & (4,27, 4,29) & 0,0001 & 0,0018 \\
+ $(n_{50},\sigma_{0.2},D_{02})$  & 1,00  & 0,97  & (0,97, 0,98) & 0,0003 & 0,0011 \\
+ $(n_{50},\sigma_{0.2},D_{03})$ & 0,15  & 0,14  & (0,14, 0,14) & 0,0002 & 0,0004 \\
+ $(n_{50},\sigma_{0.2},D_{04})$  & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 & 0,0001 \\
+ $(n_{50},\sigma_{0.35},D_{01})$& 4,82  & 4,83  & (4,83, 4,85) & 0,0001 & 0,0015 \\
+ $(n_{50},\sigma_{0.35},D_{02})$ & 1,36  & 1,33  & (1,33, 1,34) & 0,0003 & 0,0010 \\
+ $(n_{50},\sigma_{0.35},D_{03})$ & 0,28  & 0,25  & (0,25, 0,25) & 0,0003 & 0,0006 \\
+ $(n_{50},\sigma_{0.35},D_{04})$& 0,04  & 0,03  & (0,03, 0,03) & 0,0001 & 0,0002 \\
+ $(n_{50},\sigma_{0.5},D_{01})$ & 5,56  & 5,58  & (5,58, 5,60) & 0,0002 & 0,0021 \\
+ $(n_{50},\sigma_{0.5},D_{02})$ & 1,88  & 1,83  & (1,83, 1,85) & 0,0005 & 0,0015 \\
+ $(n_{50},\sigma_{0.5},D_{03})$  & 0,51  & 0,45  & (0,45, 0,46) & 0,0005 & 0,0009 \\
+ $(n_{50},\sigma_{0.5},D_{04})$ & 0,11  & 0,08  & (0,08, 0,09) & 0,0002 & 0,0005 \\
+ $(n_{100},\sigma_{0.2},D_{01})$ & 3,05  & 3,04  & (3,04, 3,05) & 0,0000 & 0,0010 \\
+ $(n_{100},\sigma_{0.2},D_{02})$  & 0,35  & 0,33  & (0,33, 0,34) & 0,0001 & 0,0004 \\
+ $(n_{100},\sigma_{0.2},D_{03})$  & 0,02  & 0,01  & (0,01, 0,01) & 0,0000 & 0,0001 \\
+ $(n_{100},\sigma_{0.2},D_{04})$ & 0,00  & 0,00  & (0,00, 0,00) & 0,0000 & 0,0000 \\
+  $(n_{100},\sigma_{0.35},D_{01})$  & 3,44  & 3,43  & (3,43, 3,44) & 0,0001 & 0,0012 \\
+ $(n_{100},\sigma_{0.35},D_{02})$ & 0,53  & 0,51  & (0,51, 0,51) & 0,0002 & 0,0006 \\
+ $(n_{100},\sigma_{0.35},D_{03})$ & 0,04  & 0,03  & (0,03, 0,04) & 0,0001 & 0,0002 \\
+ $(n_{100},\sigma_{0.35},D_{04})$& 0,00  & 0,00  & (0,00, 0,00) & 0,0000 & 0,0000 \\
+    \bottomrule
+    \end{tabular}%
+  \label{uniform1}%
+\end{table}%
+\begin{table}[htbp]
+  \centering
+  \caption{(Continued) Simulation and approximation results in the case of uniform distributed failure rates and mixed Erlang distribution}
+    \begin{tabular}{rrrrrr}
+     \toprule
+    & $D_{E_{p}}^{A}$ & $D_{E_{p}}^{S_{u}}$ & Confidence interval of $D_{E_{p}}^{S_{u}}$ & $avg$ $G_{u}$ & $max$ $G_{u}$ \\
+    \midrule
+ $(n_{100},\sigma_{0.5},D_{01})$  & 3,97  & 3,97  & (3,97, 3,99) & 0,0000 & 0,0016 \\
+ $(n_{100},\sigma_{0.5},D_{02})$ & 0,82  & 0,79  & (0,79, 0,80) & 0,0003 & 0,0008 \\
+ $(n_{100},\sigma_{0.5},D_{03})$& 0,10  & 0,08  & (0,08, 0,09) & 0,0002 & 0,0003 \\
+ $(n_{100},\sigma_{0.5},D_{04})$ & 0,01  & 0,00  & (0,00, 0,01) & 0,0000 & 0,0001 \\
+    \bottomrule
+    \end{tabular}%
+  \label{uniform2}%
+\end{table}%
+
+\section{Figures of the total downtime of the test bed}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.2\linewidth]{lognormal.eps}
+ \caption{The simulation curve and approximation curve of the downtime density distribution under lognormal distributed failure rate}
+ \label{fig:lognormal}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=1.2\linewidth]{uniform.eps}
+ \caption{The simulation curve and approximation curve of the downtime density distribution under uniform distributed failure rate}
+  \label{fig:uniform}
+\end{figure}
+
+\end{document} 
