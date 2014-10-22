@@ -200,9 +200,9 @@ The OEM is interested in minimizing the expected total life cycle cost $\pi(\bol
 \begin{eqnarray}
 \text{(P)} \hspace{15mm} & min_{\boldsymbol{x}} & \hspace{10mm} \mathbb{E}_{\Lambda(\boldsymbol{x})} \bigg[ \pi(\boldsymbol{x})\bigg] \nonumber\\
 & \text{ s.t. }&  \hspace{5mm} \sum_{j=1}^{m_i}{x_{ij}}=1, \hspace{10mm} \forall i \in \{1,2,...,n\} \nonumber\\
-& & \hspace{5mm} x_{ij} \in \{0,1\}, \hspace{10mm}  \forall i \in \{\1,2,...,n}, j \in \{1,2,...,m_i\}
+& & \hspace{5mm} x_{ij} \in \{0,1\}, \hspace{10mm}  \forall i \in \{1,2,...,n\}, j \in \{1,2,...,m_i\}
 \end{eqnarray}
-where $\pi(\boldsymbol{x})=A(\boldsymbol{x})+R(\boldsymbol{x})+P(\boldsymbol{x})$. Notice that in the above optimization formulation, although we do not include a probability constraint on the distribution of $\pi(\boldsymbol{x})$, the variance of $\pi(\boldsymbol{x})$ still gets penalized by the third cost term $P(\boldsymbol{x})$ in the objective function. This optimization problem is difficult to solve because of the complicated form of the objective function. In the objective function, the expected penalty cost $P(\boldsymbol{x})$ is a multiple integration over the ranges of the random failure rates, which is difficult to calculate. Therefore, in the next section, an approximation method will be proposed to make the evaluation of the objective function easier. 
+where $\pi(\boldsymbol{x})=A(\boldsymbol{x})+R(\boldsymbol{x})+P(\boldsymbol{x})$. Notice that in the above optimization formulation, although we do not include a probability constraint on the distribution of $\pi(\boldsymbol{x})$, the variance of $\pi(\boldsymbol{x})$ still gets penalized by the third cost term $P(\boldsymbol{x})$ in the objective function. This optimization problem is difficult to solve because of the complicated form of the objective function. In the objective function, the expected penalty cost $P(\boldsymbol{x})$ is a multiple integration over the ranges of the random failure rates, which is difficult to calculate. Therefore, in the next section, an approximation method will be proposed to make the evaluation of the objective function easier.
 
 %\paragraph{\textbf{Proposition 1}} \textit{For component $i$, if there exist indices $k$ and $l\in J_{i}$ such that $\mu_{ik}\leq \mu_{il}$, $\sigma_{ik}\leq \sigma_{il}$, $c^{ik}_{a}\geq c^{il}_{a} $, $c^{ik}_{r}\geq c^{il}_{r} $ and $r_{ik} \leq r_{il}$ },  then the optimal solution of the problem (P) has $x_{il}=0$
 %
@@ -211,7 +211,7 @@ where $\pi(\boldsymbol{x})=A(\boldsymbol{x})+R(\boldsymbol{x})+P(\boldsymbol{x})
 
 \section{Approximate evaluation}
 
-In this section, we will describe how to evaluate a given selection plan of rough designs for all the critical components in the system approximately. For a given policy $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$, the design cost $A(\boldsymbol{x})$ and the expected repair cost $\mathbb{E}_{\Lambda(\boldsymbol{x})} \big[ R(\boldsymbol{x}) \big]$ can be determined from Equation \eqref{A} and \eqref{ER}. These two cost terms are linear functions of the decision variables $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$.  
+In this section, we will describe how to evaluate a given selection plan of rough designs for all the critical components in the system approximately. For a given policy $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$, the design cost $A(\boldsymbol{x})$ and the expected repair cost $\mathbb{E}_{\Lambda(\boldsymbol{x})} \big[ R(\boldsymbol{x}) \big]$ can be determined from Equation \eqref{A} and \eqref{ER}. These two cost terms are linear functions of the decision variables $\boldsymbol{x}=[\boldsymbol{x_{1}},\boldsymbol{x_{2}},\dots,\boldsymbol{x_{n}}]$.
 
 
 For the exact evaluation of the expected penalty cost $\mathbb{E}_{\Lambda(\boldsymbol{x})}\big[P(\boldsymbol{x})\big]$ of a given policy $\boldsymbol{x}$, we will suffer from the ``curse of dimensionality" when the number of critical components becomes large, since each critical component contributes a dimension in computing the convolution and integration in Equation \eqref{EP2}. The computation time will become intractable as the number of cirtical components grows. (In a special case, if the repair time $r$ for each rough design of each component is the same, the system downtime equals the product of the number of failures of the system and $r$. In this case, we only need to compute the integration part. But we will still face the ``curse of dimensionality" in computing the integration part.) With the consideration of the real life situation, we introduce an approximation method to help estimate the expected penalty cost. Remember that the expected penalty cost is the expected exceeding downtime multiplied with the penalty cost rate, i.e., $\big[D(\boldsymbol{x})-D_0\big]^{+}c_p$. Then if we can find an approximation method to calculate the distribution of the system downtime $D(\boldsymbol{x})$ efficiently, it will become relatively easy to evaluate the expected penalty cost in the objective function.
@@ -237,14 +237,15 @@ The first moment $\mu_{D}$, variance $\sigma^{2}_{D}$ and the coefficient of var
 &=& \mathbb{E}_{\Lambda(\boldsymbol{x})}\bigg[\bigg[\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]^{2} +\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_{i}})\Lambda_{i}(\boldsymbol{x_{i}})T}\bigg]-\bigg[T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}\bigg]^{2}\nonumber\\
 &=&T^{2}\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_i})\sigma_{i}^{2}(\boldsymbol{x_i})}+T\sum_{i=1}^{n}{r_{i}^{2}(\boldsymbol{x_i})\mu_{i}(\boldsymbol{x_i})}
 \label{sigma}\\
-c_{v}(\boldsymbol{x}) &=& \frac{\sigma_{D}(\boldsymbol{x})}{\mu_{D}(\boldsymbol{x})}
+c_{v}(\boldsymbol{x}) &=& \frac{\sigma_{D}(\boldsymbol{x})}{\mu_{D}(\boldsymbol{x})}\\
+\end{eqnarray}
 
 where $\mu_{i}(\boldsymbol{x_i})$ and $\sigma_{i}(\boldsymbol{x_i})$ is the mean and standard deviation of $\Lambda_{i}(\boldsymbol{x_i})$ respectively.
 %%\mu_{D^{2}}(\boldsymbol{x})&=&
 %T^{2}\sum_{i=1}^{n}r_{i}(\boldsymbol{x_i})^{2}\int_{\lambda_{i}(\boldsymbol{x_i})\in\Lambda_{i}(\boldsymbol{x_i})}{\lambda_{i}(\boldsymbol{x_i})^{2}f(\lambda_{i}(\boldsymbol{x_i}))d\lambda_{i}(\boldsymbol{x_i})}\nonumber\\
 %&&+2T^{2}\sum_{i=1}^{n}\sum_{i\ne j}{r_{i}(\boldsymbol{x_i})r_{j}(\boldsymbol{x_j})\mu_{i}(\boldsymbol{x_i})\mu_{j}(\boldsymbol{x_j})}\nonumber\\
 %&&+T\sum_{i=1}^{n}{r_{i}(\boldsymbol{x_i})^{2}\mu_{i}(\boldsymbol{x_i})}
-\end{eqnarray}
+
 
 Given that $\mu_{D}>0$, and $0<c_{v}\leq 1$, according to Tijms 1994, we fit the downtime distribution to an Erlang$(k-1,k)$ distribution with parameters$(k,\theta,q_{E})$ such that the first two moments of $D(\boldsymbol{x})$ equal the first two moments of the Erlang $(k-1,k)$ distribution. Thus the parameters of the Erlang $(k-1,k)$ distribution can be obtained as
 \begin{eqnarray}
@@ -298,14 +299,14 @@ The procedure of the approximation evaluation method is illustrated in the follo
 \end{description}
 
 \subsection{Accuracy of the approximation}
-To assess the accuracy of the approximation of the expected exceeding downtime $D_{E}^{A}(\boldsymbol{x})$, we use Monte Carlo simulation method to generate the simulation results $D_{E}^{S}(\boldsymbol{x})$ according to \ref{MCP}, so that the comparison between $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$ can be made. A full factorial test bed is set up to show the accuracy of the approximation under different parameter settings. We investigate the effect of three factors: the number of the critical components $n$, standard deviation $\sigma_{i}(\boldsymbol{x_i})$ of the failure rate for each component and the predetermined targeted downtime $D_{0}$. Notice that although the standard deviation $\sigma_i$ is a function of the design $\boldsymbol{x_i}$, we will treat it as a parameter of the approximation model or simulation model to assess the approximation accuracy without loss of generality. Similarly, for $\mu_i(\boldsymbol{x_i})$ and $r_i(\boldsymbol{x_i})$ in the calculation of $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$, we will also treat them as parameters ($\mu_i , r_i$) of the approximation model or simulation model. 
+To assess the accuracy of the approximation of the expected exceeding downtime $D_{E}^{A}(\boldsymbol{x})$, we use Monte Carlo simulation method to generate the simulation results $D_{E}^{S}(\boldsymbol{x})$ according to \ref{MCP}, so that the comparison between $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$ can be made. A full factorial test bed is set up to show the accuracy of the approximation under different parameter settings. We investigate the effect of three factors: the number of the critical components $n$, standard deviation $\sigma_{i}(\boldsymbol{x_i})$ of the failure rate for each component and the predetermined targeted downtime $D_{0}$. Notice that although the standard deviation $\sigma_i$ is a function of the design $\boldsymbol{x_i}$, we will treat it as a parameter of the approximation model or simulation model to assess the approximation accuracy without loss of generality. Similarly, for $\mu_i(\boldsymbol{x_i})$ and $r_i(\boldsymbol{x_i})$ in the calculation of $D_{E}^{A}(\boldsymbol{x})$ and $D_{E}^{S}(\boldsymbol{x})$, we will also treat them as parameters ($\mu_i , r_i$) of the approximation model or simulation model.
 
 The instance space $\Omega$ is thus defined by all combinations of the choices for the three factors, i.e., $(n_{\alpha},\sigma_{\beta},D_{\gamma}) \in \Omega$, $\forall \alpha \in \{5,50,100\}, \beta \in \{0.2,0.35,0.5\}, \gamma \in \{01,02,03,04\}$. The values of choices for each factor are shown in Table \ref{tab:testbedps}. In the test bed, the factor $D_{\gamma}$ is a coefficient to generate different values of $D_0$ by the following expression,
  \begin{eqnarray}
  D_{0}(\boldsymbol{x}) = D_{\gamma}\sum_{i=1}^{n}{\mu_{i} r_{i} T}, \label{D0}
 \end{eqnarray}
 where $\sum_{i=1}^{n}{\mu_{i} r_{i} T}$ is the expected total downtime. Thus, if $D_{\gamma}$ is one, the targeted downtime $D_0$ is set to be equal to the expected total downtime.
-There are 36 instances in the test bed $\Omega$. The setting of the fixed parameters in the test bed is given in Table \ref{tab:testbedmur}. $r_{i}$ varies for different $i$ by taking a value from {1, 3, 5}. $\mu_{i}$ varies for different $i$ as a sequence. Both lognormal distribution and uniform distribution are assumed as the distributions for the failure rates in this study. 
+There are 36 instances in the test bed $\Omega$. The setting of the fixed parameters in the test bed is given in Table \ref{tab:testbedmur}. $r_{i}$ varies for different $i$ by taking a value from {1, 3, 5}. $\mu_{i}$ varies for different $i$ as a sequence. Both lognormal distribution and uniform distribution are assumed as the distributions for the failure rates in this study.
 
 %The number of the components $n$ in the system will affect the complexity, accuracy and computation time of our model. Different values of $\sigma_{i}$ reflect different deviation levels of the failure rate distributions. For the same sequence of $\mu_{i}$, higher $\sigma_{i}$ level results in higher exceeded total downtime. In our test beds we define $D_0$ as:
 % \begin{eqnarray}
@@ -318,7 +319,7 @@ There are 36 instances in the test bed $\Omega$. The setting of the fixed parame
   \caption{The parameter setting of the test bed}
     \begin{tabular}{lll}
     \toprule
-  $n_{\alpha}$ & $\sigma_{\beta} (\forall i \in \{\1,...,n_{\alpha}})$ & $D_{\gamma}$\\
+  $n_{\alpha}$ & $\sigma_{\beta} (\forall i \in \{1,...,n_{\alpha}\})$ & $D_{\gamma}$\\
     \midrule
     5, 50, 100 & 0.2$\mu_{i}$, 0.35$\mu_{i}$, 0.5$\mu_{i}$ & $ 1, 1.1, 1.2, 1.3$ \\
   \bottomrule
@@ -331,7 +332,7 @@ There are 36 instances in the test bed $\Omega$. The setting of the fixed parame
   \caption{Parameter values for $\mu_{i}$ and $r_{i}$, $i=\{1,2,...,n_{\alpha}\}$}
     \begin{tabular}{llll}
     \toprule
-    n_{\alpha} & $T$ &$\mu_{i}$ &  $r_{i}$\\
+    $n_{\alpha}$ & $T$ & $\mu_{i}$ &  $r_{i}$\\
     \midrule
     $5$   &10& $\{0.500, 0.250, 0.167, 0.125, 0.100\}$ &$\{1,3,5,1,3\}$\\
     $50$  &10& $\{1,...,1/(\frac{1}{\mu_{i-1}}+0.182),...,0.101\}$ &$\{1,3,5,1,3,5,...,3\}$\\
@@ -341,11 +342,11 @@ There are 36 instances in the test bed $\Omega$. The setting of the fixed parame
   \label{tab:testbedmur}%
 \end{table}
 
-We present the results of the test bed in Table \ref{lognormal1},\ref{lognormal2}, \ref{uniform1}, and \ref{uniform2}. To see how the approximation results deviate from the simulation results for each instance, we first compute the proportion of the expected exceeding downtime in the targeted total downtime, i.e., $D_{E}^{A}/D_0$ for the approximation model and $D_{E}^{S}/D_0$ for the simulation model, as well as the confidence intervals of the simulation results. The confidence intervals of all the simulation results are relatively small, which shows the accuracy of our simulation results. Then the accuracy of our approximation is assessed by the gaps between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$. For lognormally-distributed failure rates, the gaps are denoted as $G_l$ in Table \ref{lognormal1} and \ref{lognormal2}; the average gap is 0.0004 and the maximum gap is 0.0019. For uniformly-distributed failure rates, the gaps are denoted as $G_u$ in Table \ref{uniform1} and \ref{uniform2}; the average gap is  0.0005 and the maximum gap is 0.0023. From these results, we can get the conclusion that our approximation is relatively accurate under different parameter settings.    
+We present the results of the test bed in Table \ref{lognormal1},\ref{lognormal2}, \ref{uniform1}, and \ref{uniform2}. To see how the approximation results deviate from the simulation results for each instance, we first compute the proportion of the expected exceeding downtime in the targeted total downtime, i.e., $D_{E}^{A}/D_0$ for the approximation model and $D_{E}^{S}/D_0$ for the simulation model, as well as the confidence intervals of the simulation results. The confidence intervals of all the simulation results are relatively small, which shows the accuracy of our simulation results. Then the accuracy of our approximation is assessed by the gaps between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$. For lognormally-distributed failure rates, the gaps are denoted as $G_l$ in Table \ref{lognormal1} and \ref{lognormal2}; the average gap is 0.0004 and the maximum gap is 0.0019. For uniformly-distributed failure rates, the gaps are denoted as $G_u$ in Table \ref{uniform1} and \ref{uniform2}; the average gap is  0.0005 and the maximum gap is 0.0023. From these results, we can get the conclusion that our approximation is relatively accurate under different parameter settings.
 
 %which are denoted as $avg$ $ G_l$ and $max $ $G_l$ for lognormally-distributed failure rates, and denoted as $avg$ $G_n$ and $max$ $G_n$ for uniformly-distributed failure rates . The detailed results of $D_{E}^{A}/D_0$, $D_{E}^{S}/D_0$, confidence interval of the simulation result $D_{E}^{S}/D_0$, $avg$ $G$ and $max$ $G$ for each instance are shown in Table \ref{lognormal1} for lognormally-distributed failure rates and Table \ref{uniform1} for uniformly-distributed failure rates of \ref{detailapptable}. To take a better overview of the gaps, in Table \ref{generalapptable}, the comparison between $D_{E}^{A}/D_0$ and $D_{E}^{S}/D_0$ are made by computing $avg$ $G$ and $max$ $G$ for each level of every factor. For example, in the second row of Table \ref{generalapptable}, $avg$ $G$ and $max$ $G$ represent the average gap and maximum gap of the subset $\Omega_{n_{5}}=\{(n_{5},\sigma_{\beta},D_{\gamma})|\beta\in\{0.2,0.35,0.5\},\gamma\in\{01,02,03,04\}\}$ (when $n=5$).
 
-Furthermore, our approximation method is more accurate when $n$ is large (e.g., 50 or 100). This is due to the fact that the total downtime is the sum of $n$ independent random variables, and when $n$ is large the total downtime converges in distribution to a normal random variable regardless of the individual underlying distributions. Note that the computation times of the approximation model for all the instances are negligible compared with the simulation model. In order to better demonstrate the accuracy of our approximation method, we also compare the probability density functions of the downtime distribution estimated from the simulation model with the ones estimated from the approximation model, as shown in Figure \ref{fig:lognormal} and Figure \ref{fig:uniform}. It is obvious that the downtime distributions estimated from the simulation model are approximately the same as the ones estimated from the approximation model for various settings of $n$ and $\sigma$. 
+Furthermore, our approximation method is more accurate when $n$ is large (e.g., 50 or 100). This is due to the fact that the total downtime is the sum of $n$ independent random variables, and when $n$ is large the total downtime converges in distribution to a normal random variable regardless of the individual underlying distributions. Note that the computation times of the approximation model for all the instances are negligible compared with the simulation model. In order to better demonstrate the accuracy of our approximation method, we also compare the probability density functions of the downtime distribution estimated from the simulation model with the ones estimated from the approximation model, as shown in Figure \ref{fig:lognormal} and Figure \ref{fig:uniform}. It is obvious that the downtime distributions estimated from the simulation model are approximately the same as the ones estimated from the approximation model for various settings of $n$ and $\sigma$.
 
 %We can also observe that both $D_{E_{p}}^{S}$ and $D_{E_{p}}^{A}$ is much lower for a system with a larger number of components than for a system with small number of components. And $D_{E_{p}}$ is increasing while $\sigma$ is increasing.
 \begin{table}[htbp]
@@ -919,4 +920,4 @@ $(n_{5},\sigma_{0.5},D_{04})$ & 6,54  & 6,41  & (6.36, 6.47) & 0,0013 & 0,0059 \
   \label{fig:uniform}
 \end{figure}
 
-\end{document} 
+\end{document}
